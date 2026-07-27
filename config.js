@@ -8,18 +8,18 @@ global.ButtonV2 = ButtonV2;
 global.Carousel = Carousel;
 global.AIRich = AIRich;
 
-global.pairingNumber = 212607244917;
+global.pairingNumber =212607244917 ;
 global.owner = [
-  ['212698498657', 'noureddine Ouafy', true],
+  ['212622155826', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
   ['', 'Owner 2', true],
 ];
 
-global.namebot = 'gaff ai';
-global.author = 'Noureddine ouafy';
-global.source = 'https://chat.whatsapp.com/Hp3R0WWD5G8Li9HKBU6fn3';
+global.namebot = 'carl-bot';
+global.author = '';
+global.source = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J';
 
-global.wait = 'Loading... | جاري الانتظار';
-global.eror = 'There is an error... | وقع خطأ';
+global.wait = 'Loading...';
+global.eror = 'There is an error...';
 
 global.pakasir = {
 	slug: 'kilersbotz',
@@ -84,3 +84,4 @@ watchFile(file, () => {
 	console.log(chalk.redBright("Update 'config.js'"));
 	import(`${file}?update=${Date.now()}`);
 });
+			
