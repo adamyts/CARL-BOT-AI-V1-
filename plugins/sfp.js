@@ -1,35 +1,58 @@
-import fs from 'fs';
-import syntaxError from 'syntax-error';
+import fs from 'fs'
+import syntaxError from 'syntax-error'
 
-let handler = async (m, { text, usedPrefix, command }) => {
+// ===== Channel Info + Instagram =====
+const channelName = 'GI : adam.__.98'
+const CHANNEL_ID = '120363410733859643@newsletter'
+const instagram = 'adam.__.98'
+const newsletter = {
+  forwardingScore: 999,
+  isForwarded: true,
+  forwardedNewsletterMessageInfo: {
+    newsletterJid: CHANNEL_ID,
+    newsletterName: channelName
+  }
+}
+// ========================
+
+let handler = async (m, { conn, text, usedPrefix, command }) => {
 	if (!text)
-		throw `uhm.. where is the text?\n\nusage:\n${usedPrefix + command} <text>\n\nexample:\n${usedPrefix + command} plugins/file.js`;
+		return conn.sendMessage(m.chat, {
+			text: `*📌 الـطـريـقـة:* ${usedPrefix + command} <اسم الملف>\n\n*مـثـال:* ${usedPrefix + command} test`,
+			contextInfo: newsletter
+		}, { quoted: m })
 
-	if (!m.quoted?.text) throw `reply to the message!`;
+	if (!m.quoted?.text) 
+		return conn.sendMessage(m.chat, {
+			text: `*❌ رد عـلـى الـرسـالـة لـي فـيـهـا الـكـود*`,
+			contextInfo: newsletter
+		}, { quoted: m })
 
-	let code = m.quoted.text;
-	let path = `./plugins/${text}.js`;
+	await m.react('⏳')
+
+	let code = m.quoted.text
+	let path = `./plugins/${text}.js`
 
 	let err = syntaxError(code, path, {
 		sourceType: 'module',
 		allowAwaitOutsideFunction: true,
-	});
+	})
 
 	if (err)
-		throw `❌ Syntax Error
+		return conn.sendMessage(m.chat, {
+			text: `*❌ خـطـأ فـي الـكـود*\n\n*الـرسـالـة:* ${err.message}\n*الـسـطـر:* ${err.line}\n*الـعـمـود:* ${err.column}\n\n${err.annotated}`,
+			contextInfo: newsletter
+	}, { quoted: m })
 
-Message : ${err.message}
-Line : ${err.line}
-Column : ${err.column}
-Annotated : ${err.annotated}`;
+	fs.writeFileSync(path, code)
+	
+	await m.reply(`*✅ تـم حـفـظ الـبـلاجـن*\n*الـمـسـار:* ${path}`)
+	await m.react('✅')
+}
 
-	fs.writeFileSync(path, code);
-	m.reply(`✅ saved in ${path}`);
-};
+handler.help = ['sfp <اسم>']
+handler.tags = ['owner']
+handler.command = /^sfp$/i
+handler.owner = true
 
-handler.help = ['sfp'];
-handler.tags = ['owner'];
-handler.command = /^sfp$/i;
-handler.owner = true;
-
-export default handler;
+export default handler
