@@ -1,7 +1,18 @@
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  📌 Pinterest Search Plugin — Silana Bot
-//  Searches Pinterest for pins (images) by keyword
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+import fs from 'fs'
+
+// ===== Channel Info + Instagram =====
+const channelName = 'GI : adam.__.98'
+const CHANNEL_ID = '120363410733859643@newsletter'
+const instagram = 'adam.__.98'
+const newsletter = {
+  forwardingScore: 999,
+  isForwarded: true,
+  forwardedNewsletterMessageInfo: {
+    newsletterJid: CHANNEL_ID,
+    newsletterName: channelName
+  }
+}
+// ========================
 
 async function getSession() {
     const res = await fetch("https://id.pinterest.com/", {
@@ -26,7 +37,7 @@ async function pinterestSearch(query, options = {}) {
             scope,
             page_size: limit,
             refine_search_with_filters: true,
-            ...(bookmark ? { bookmarks: [bookmark] } : {})
+           ...(bookmark? { bookmarks: [bookmark] } : {})
         },
         context: {}
     }
@@ -45,8 +56,8 @@ async function pinterestSearch(query, options = {}) {
             "x-pinterest-appstate": "active",
             "x-pinterest-pws-handler": "www/search/[scope].js",
             "x-pinterest-source-url": sourceUrl,
-            ...(session.csrf ? { "x-csrftoken": session.csrf } : {}),
-            ...(session.cookies ? { "cookie": session.cookies } : {})
+           ...(session.csrf? { "x-csrftoken": session.csrf } : {}),
+           ...(session.cookies? { "cookie": session.cookies } : {})
         }
     })
 
@@ -56,7 +67,7 @@ async function pinterestSearch(query, options = {}) {
     const payload = json?.resource_response?.data
     if (!payload) return { results: [], bookmark: null, error: "no data" }
 
-    const arr = Array.isArray(payload) ? payload : payload.results || []
+    const arr = Array.isArray(payload)? payload : payload.results || []
 
     const mapPin = (pin) => ({
         title: pin.title || pin.grid_title || "",
@@ -78,48 +89,19 @@ async function pinterestSearch(query, options = {}) {
     }
 }
 
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-//  Handler
-// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-
-    // ── Guide (no args) ──────────────────────────────────────
     if (!text) {
-        const guide = `
-╔══════════════════════════════╗
-║   📌  *Pinterest Search*     ║
-╚══════════════════════════════╝
-
-*What is this?*
-Search Pinterest directly from WhatsApp and get images or videos sent right here in the chat — no app needed!
-
-*How to use:*
-➤ ${usedPrefix}${command} <keyword>
-
-*Examples:*
-• ${usedPrefix}${command} logo design
-• ${usedPrefix}${command} aesthetic room
-• ${usedPrefix}${command} anime wallpaper
-• ${usedPrefix}${command} minimalist tattoo
-
-*What you get:*
-🖼️ Up to 5 Pinterest images per search
-📎 Direct link to each pin
-👤 Creator username & name
-
-*Notes:*
-- Only images are sent (videos are linked)
-- Results come from Pinterest's public search
-- Each search may give different results`.trim()
-
-        return conn.sendMessage(m.chat, { text: guide }, { quoted: m })
+        return conn.sendMessage(m.chat, {
+            text: `*📌 الـطـريـقـة:* ${usedPrefix + command} <كـلـمـة الـبـحـث>\n\n*مـثـال:* \n• ${usedPrefix + command} logo design\n• ${usedPrefix + command} aesthetic room\n• ${usedPrefix + command} anime wallpaper\n\n*الـنـتـائـج:* يـرسـل 5 صـور مـن بـنـتـرست مـع الـرابـط`,
+            contextInfo: newsletter
+        }, { quoted: m })
     }
 
-    // ── Processing ───────────────────────────────────────────
     const query = text.trim()
+    await m.react('⏳')
     await conn.sendMessage(m.chat, {
-        text: `🔍 Searching Pinterest for *"${query}"*...`
+        text: `*🔍  أبـحث في بـنـتـرست  عـن :* "${query}"...`,
+        contextInfo: newsletter
     }, { quoted: m })
 
     let data
@@ -127,49 +109,50 @@ Search Pinterest directly from WhatsApp and get images or videos sent right here
         data = await pinterestSearch(query, { limit: 5 })
     } catch (err) {
         return conn.sendMessage(m.chat, {
-            text: `❌ Failed to reach Pinterest.\n\nError: ${err.message}`
+            text: `*❌ فـشـل الاتـصـال بـبـنـتـرست*\n\n*الـخـطـأ:* ${err.message}`,
+            contextInfo: newsletter
         }, { quoted: m })
     }
 
-    if (data.error || !data.results?.length) {
+    if (data.error ||!data.results?.length) {
         return conn.sendMessage(m.chat, {
-            text: `😕 No results found for *"${query}"*.\n\nTry a different keyword.`
+            text: `*😕  لـم أجـــد أي شـيء عــن* "${query}"\n*جـرب كـلـمـة خـرى*`,
+            contextInfo: newsletter
         }, { quoted: m })
     }
 
-    // ── Send results ─────────────────────────────────────────
     await conn.sendMessage(m.chat, {
-        text: `📌 Found *${data.count}* pins for *"${query}"*:`
+        text: `*📌 لـقـيـت ${data.count} نـتـيـجـة عـلـى* "${query}"`,
+        contextInfo: newsletter
     }, { quoted: m })
 
     for (let i = 0; i < data.results.length; i++) {
         const pin = data.results[i]
-
-        const caption =
-            `*📌 Pin ${i + 1}/${data.results.length}*\n` +
-            (pin.title ? `📝 ${pin.title}\n` : "") +
-            (pin.fullName ? `👤 ${pin.fullName}` + (pin.username ? ` (@${pin.username})` : "") + "\n" : "") +
-            `🔗 ${pin.pinUrl}` +
-            (pin.video ? `\n🎬 Video: ${pin.video}` : "")
+        const caption = `*📌 صـورة ${i + 1}/${data.results.length}*\n` +
+            (pin.title? `*الـعـنـوان:* ${pin.title}\n` : "") +
+            (pin.fullName? `*صـاحـب الـحـسـاب:* ${pin.fullName}` + (pin.username? ` (@${pin.username})` : "") + "\n" : "") +
+            `*الـرابـط:* ${pin.pinUrl}` +
+            (pin.video? `\n*فـيـديـو:* ${pin.video}` : "")
 
         if (pin.image) {
             try {
                 await conn.sendMessage(m.chat, {
                     image: { url: pin.image },
-                    caption
+                    caption,
+                    contextInfo: newsletter
                 }, { quoted: m })
             } catch {
-                // fallback to text if image fails to download
-                await conn.sendMessage(m.chat, { text: caption }, { quoted: m })
+                await conn.sendMessage(m.chat, { text: caption, contextInfo: newsletter }, { quoted: m })
             }
         } else {
-            await conn.sendMessage(m.chat, { text: caption }, { quoted: m })
+            await conn.sendMessage(m.chat, { text: caption, contextInfo: newsletter }, { quoted: m })
         }
     }
+    await m.react('✅')
 }
 
-handler.help = handler.command = ['pinterest']
-handler.tags = ['downloader']
+handler.help = ['pinterest <text>']
+handler.tags = ['tools']
+handler.command = /^pinterest$/i
 handler.limit = true
-
 export default handler
