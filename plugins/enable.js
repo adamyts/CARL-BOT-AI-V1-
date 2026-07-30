@@ -24,6 +24,11 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
 			chat.delete = isEnable;
 			break;
 
+		case 'antilink': // <-- جديد
+			if (m.isGroup && !(isAdmin || isOwner)) return global.dfail('admin', m, conn);
+			chat.antilink = isEnable;
+			break;
+
 		case 'autolevelup':
 			isUser = true;
 			user.autolevelup = isEnable;
@@ -67,6 +72,8 @@ let handler = async (m, { conn, usedPrefix, command, args, isOwner, isAdmin }) =
 - welcome
 - detect
 - antidelete
+- antilink
+
 ${
 	isOwner
 		? `
@@ -81,7 +88,7 @@ ${
 
 *Usage examples:*
 - ${usedPrefix}enable welcome
-- ${usedPrefix}disable welcome
+- ${usedPrefix}disable antilink
 `.trim()
 				);
 
@@ -91,12 +98,12 @@ ${
 	m.reply(
 		`*${type}* has been successfully *${
 			isEnable ? 'enabled' : 'disabled'
-		}* ${isAll ? 'for the bot' : isUser ? '' : 'for this chat'}`
+	}* ${isAll ? 'for the bot' : isUser ? '' : 'for this chat'}`
 	);
 };
 
 handler.help = ['enable', 'disable'];
-handler.tags = ['onwer'];
+handler.tags = ['group'];
 handler.command = /^((en|dis)able|(true|false)|(turn)?(on|off)|[01])$/i;
 handler.owner= true
 export default handler;
