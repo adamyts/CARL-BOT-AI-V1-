@@ -1,6 +1,7 @@
-let handler = async (m) => {
+let handler = async (m, { conn }) => {
 	let total = Object.values(global.plugins).filter((v) => v.help && v.tags).length;
-	conn.adReply(m.chat, `Current Total Bot Features: ${total}`, './media/thumbnail.jpg', m, { title: 'My Total Love for You' });
+	
+	await conn.adReply(m.chat, `*📊 عـدد ميـزات البـوت الـحـاليـة: ${total}*`, './media/thumbnail.jpg', m, { title: 'مـعلومـات الـبــوت' });
 };
 
 handler.help = ['totalfeatures'];
