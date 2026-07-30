@@ -67,7 +67,7 @@ class SaveTube {
 let handler = async (m, { conn, args }) => {
   if (!args[0]) {
     return m.reply(
-      ` *📌 الـطـريـقـة:*\n.ytmp3 <youtube_url>\n\n*مـثـال:*\n.ytmp3 https://youtu.be/U2vyax9Uufc`
+      ` *📌 الـطـريـقـة:*\n.ytmp3 <youtube_url>\n\n*مـثـال:*\n.ytmp3 https://youtu.be/U29Uufc`
     )
   }
 
