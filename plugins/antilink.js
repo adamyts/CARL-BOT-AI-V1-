@@ -1,33 +1,33 @@
 // instagram
 let before = async function (m, { conn, isAdmin, isBotAdmin }) {
-  // التحقق من روابط واتساب للقنوات والمجموعات
+  // Regex for WhatsApp channels and groups
   const regex = /https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+|https:\/\/whatsapp\.com\/channel\/[A-Za-z0-9]{22}/
 
-  if (regex.test(m.text)) {
-    if (isAdmin) return // تجاهل إذا كان المرسل مشرف
-    if (!isBotAdmin) return // يجب أن يكون البوت مشرف للحذف والطرد
+  if (regex.test(m.text)) {Ignore
+    if (isAdmin) return //  if the sender is an admin
+    if (!isBotAdmin) return // Bot must be admin to delete or remove
 
-    // إرسال رسالة تحذير - بخط عريض
+    // Send warning message - BIG FONT VERSION
     await conn.sendMessage(
       m.chat,
       {
-        text: `⚠️ *تـحذيـر : تـم رصــد رابـط مـجـمـوعـة او قـنـاة!!* ⚠️
+        text: `⚠️ *تـحـذيـر : تـم رصـد رابـط مـجـموعـة او قـنـــاة* ⚠️
 
-*👤 العـضـو* @${m.sender.split('@')[0]}
+*👤الـعـضـو* @${m.sender.split('@')[0]}
 
-*تـمـت إزالـتـه*
-*لمـخالفـته قـوانـين المـجـموعة بإرسـال روابـط.*
+ *تــمـت الإزالــــة* 
+*لانتـهـاكه قـوانـيـن الـمجـموعـة بإرسـال الـروابـط.*
 
-*🚫 هـذا التـصرف ممـنوع هـنا 🚫*`,
+*🚫 هــذا السـلوك مـمنوع هــنا 🚫*`,
         mentions: [m.sender]
       },
       { quoted: m }
     )
 
-    // حذف الرسالة التي تحتوي على الرابط
+    // Delete the message containing the link
     await conn.sendMessage(m.chat, { delete: m.key })
 
-    // طرد العضو الذي أرسل الرابط
+    // Kick the user who sent the link
     await conn.groupParticipantsUpdate(m.chat, [m.sender], "remove")
   }
 }
