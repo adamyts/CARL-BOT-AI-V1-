@@ -1,24 +1,17 @@
-// instagram
+// instagram.com/noureddine_ouafy
 let before = async function (m, { conn, isAdmin, isBotAdmin }) {
   // Regex for WhatsApp channels and groups
   const regex = /https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+|https:\/\/whatsapp\.com\/channel\/[A-Za-z0-9]{22}/
 
-  if (regex.test(m.text)) {Ignore
-    if (isAdmin) return //  if the sender is an admin
+  if (regex.test(m.text)) {
+    if (isAdmin) return // Ignore if the sender is an admin
     if (!isBotAdmin) return // Bot must be admin to delete or remove
 
-    // Send warning message - BIG FONT VERSION
+    // Send warning message
     await conn.sendMessage(
       m.chat,
       {
-        text: `⚠️ *تـحـذيـر : تـم رصـد رابـط مـجـموعـة او قـنـــاة* ⚠️
-
-*👤الـعـضـو* @${m.sender.split('@')[0]}
-
- *تــمـت الإزالــــة* 
-*لانتـهـاكه قـوانـيـن الـمجـموعـة بإرسـال الـروابـط.*
-
-*🚫 هــذا السـلوك مـمنوع هــنا 🚫*`,
+        text: `⚠️ *تـم اكـتـشاف رابــط قـنــاة أو مـجـمـوعــة!*\n\nالــعــضـو *@${m.sender.split('@')[0]}* تــم طـرده لأنـه خـالــف قـوانــين الـمـجــموعـة وقــام بإرســال روابـــط.\n\n🚫 هـذا التـصرف مـمنوع تمـامًـا.`,
         mentions: [m.sender]
       },
       { quoted: m }
