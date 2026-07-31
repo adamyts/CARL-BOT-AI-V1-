@@ -8,10 +8,10 @@ global.ButtonV2 = ButtonV2;
 global.Carousel = Carousel;
 global.AIRich = AIRich;
 
-global.pairingNumber =21260724491 ;
+global.pairingNumber =212607244917 ;
 global.owner = [
-  ['212666774170', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
-  ['', 'Owner 2', true],
+  ['212698498657', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
+  ['212622155826', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
 ];
 
 global.namebot = 'carl-bot';
