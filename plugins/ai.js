@@ -100,11 +100,11 @@ const gemini = {
 const geminiSessions = {};
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw `Please enter a prompt. \n\n*Example:* ${usedPrefix + command} Hello, what is the capital of Australia?`;
+    if (!text) throw `الـرجـاء إدخـال أمـر أو وصــف. \n\n*مـثــل:* ${usedPrefix + command} تـعلــم الـلغـه الـبرمـجـة?`;
 
     if (text.toLowerCase() === '--reset') {
         delete geminiSessions[m.sender];
-        return m.reply('🤖 Conversation history has been reset.');
+        return m.reply('🤖 تمـت إعـادة تعيـين سجـل الـمحـادثـة');
     }
     
     try {
