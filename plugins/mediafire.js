@@ -64,7 +64,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['mediafire <url>'];
 handler.tags = ['downloader'];
-handler.command = /^(mediafire|mf)$/i;
+handler.command = /^(mediafire|مديافاير)$/i;
 handler.limit = false;
 handler.register = false;
 
