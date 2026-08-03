@@ -2,7 +2,7 @@
 
 // ===== Channel Info + Instagram =====
 const channelName = 'GI : adam.__.98'
-const CHANNEL_ID = '120363410733859643@newsletter' // <-- معرف قناة daily
+const CHANNEL_ID = '120363410733859643@newsletter'
 const instagram = 'adam.__.98'
 const newsletter = {
     forwardingScore: 999,
@@ -23,11 +23,11 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 		? text.replace(/[^0-9]/g, '') + '@s.whatsapp.net'
 		: null
 
-	const cmd = ['add', 'kick', 'promote', 'demote']
+	const cmd = ['اضافة', 'طرد', 'ترقية', 'انزال', 'add', 'kick', 'promote', 'demote']
 
 	if (cmd.includes(command) &&!target)
 		return conn.sendMessage(m.chat, {
-			text: `*📌 الـطـريـقـة:* ${usedPrefix + command} @tag\n*او* رد على رسالة العضو`,
+			text: `*🫯 الـرجـاء مـنـشـن الـعـضـو او الـرد عـلـى رسـالـتـه*\n\n*📌 مـثـل :* \`${usedPrefix}طرد @tag\``,
 			contextInfo: newsletter
 		}, { quoted: m })
 
@@ -39,6 +39,7 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 
 	switch (command) {
 		case 'add':
+		case 'اضافة':
 			{
 				if (inGc) {
 					await m.react('❌')
@@ -67,6 +68,7 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 			break
 
 		case 'kick':
+		case 'طرد':
 			if (!inGc) {
 				await m.react('❌')
 				return m.reply(`*❌ الـعـضـو مـاشـي فـي الـمـجـمـوعـة*`)
@@ -77,6 +79,7 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 			break
 
 		case 'promote':
+		case 'ترقية':
 			if (!inGc) {
 				await m.react('❌')
 				return m.reply(`*❌ الـعـضـو مـاشـي فـي الـمـجـمـوعـة*`)
@@ -87,6 +90,7 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 			break
 
 		case 'demote':
+		case 'انزال':
 			if (!inGc) {
 				await m.react('❌')
 				return m.reply(`*❌ الـعـضـو مـاشـي فـي الـمـجـمـوعـة*`)
@@ -97,14 +101,14 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 			break
 
 		case 'closegc':
-		case 'mute':
+		case 'اغلاق':
 			await conn.groupSettingUpdate(m.chat, 'announcement')
 			await m.reply(`*✅ تـم اغـلاق الـمـجـمـوعـة*\n*الان فـقـط الادمـيـن يـقـدر يـرسـل*`)
 			await m.react('✅')
 			break
 
 		case 'opengc':
-		case 'unmute':
+		case 'فتح':
 			await conn.groupSettingUpdate(m.chat, 'not_announcement')
 			await m.reply(`*✅ تـم فـتـح الـمـجـمـوعـة*\n*الان كـلـشـي يـقـدر يـرسـل*`)
 			await m.react('✅')
@@ -115,9 +119,9 @@ const handler = async (m, { conn, text, participants, groupMetadata, command, us
 	}
 }
 
-handler.help = ['add @tag', 'kick @tag', 'promote @tag', 'demote @tag', 'opengc', 'closegc']
+handler.help = ['اضافة @tag', 'طرد @tag', 'ترقية @tag', 'انزال @tag', 'فتح', 'اغلاق']
 handler.tags = ['owner']
-handler.command = /^(add|kick|promote|demote|mute|unmute|opengc|closegc)$/i
+handler.command = /^(اضافة|طرد|ترقية|انزال|add|kick|promote|demote|فتح|اغلاق|opengc|closegc)$/i
 handler.admin = true
 handler.group = true
 handler.botAdmin = true
