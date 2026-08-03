@@ -37,8 +37,8 @@ let handler = async (m, { conn }) => {
 	} else throw '*⚠️ مـمـنـوع:* هـاد الامـر غـيـر لـلـمـالـك'
 };
 
-handler.help = ['restart']
+handler.help = ['اعادة_تشغيل']
 handler.tags = ['owner']
-handler.command = /^(res(tart)?)$/i
+handler.command = /^(اعادة_تشغيل(tart)?)$/i
 handler.owner = true
 export default handler
