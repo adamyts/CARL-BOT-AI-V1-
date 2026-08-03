@@ -5,7 +5,7 @@
 
 // ─── Channel Info ─────────────────────────────────────────────
 const channelName = 'GI : adam.__.98'
-const CHANNEL_ID = '120363410733859643@newsletter' // <-- حط هنا معرف القناة ديال daily
+const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
@@ -19,14 +19,14 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!text) {
         return conn.sendMessage(m.chat, { 
-            text: `*📌 الـطـريـقـة:* ${usedPrefix + command} <description>\n\n*مـثـال:* ${usedPrefix + command} نـهـر بـانـمـي واضـح`,
+            text: `*🫯 الـرجـاء إدخـال وصـف الـصـورة لــلانـشـاء*\n\n*📌 مـثـل :* \`${usedPrefix}انشاء صورة كـرستـيانو رونالـدو\``,
             contextInfo: newsletter
         }, { quoted: m })
     }
 
     await m.react('⏳')
     await conn.sendMessage(m.chat, { 
-        text: `*⏳ جـاري تـولـيـد الـصـورة...*`,
+        text: `*⏳ جـاري انـشـاء الـصـورة...*`,
         contextInfo: newsletter
     }, { quoted: m })
 
@@ -43,7 +43,7 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
 
         await conn.sendMessage(m.chat, {
             image: { url: data.image },
-            caption: `*✅ تـم تـولـيـد الـصـورة بـنـجـاح*\n\n*الـوصـف:* ${text}`,
+            caption: `*✅ تـم انـشـاء الـصـورة بـنـجـاح*\n\n*الـوصـف:* ${text}`,
             contextInfo: newsletter
         }, { quoted: m })
 
@@ -53,15 +53,15 @@ const handler = async (m, { conn, text, usedPrefix, command }) => {
         console.error(err)
         await m.react('❌')
         await conn.sendMessage(m.chat, { 
-            text: `*❌ فـشـل تـولـيـد الـصـورة*\n\n*الـسـبـب:* ${err.message}`,
+            text: `*❌ فـشـل انـشـاء الـصـورة*\n\n*الـسـبـب:* ${err.message}`,
             contextInfo: newsletter
         }, { quoted: m })
     }
 }
 
-handler.help = ['imagine <description>']
-handler.tags = ['ai']
-handler.command = /^(imagine|aiimg)$/i
+handler.help = ['انشاء_صورة <الـوصـف>']
+handler.tags = ['ذكـاء اصـطـنـاعـي']
+handler.command = /^(انشاء_صورة|انشاء|imagine|aiimg)$/i
 handler.limit = false 
 
 export default handler
