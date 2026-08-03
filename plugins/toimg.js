@@ -10,12 +10,12 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363410733859643@newsletter',
-            newsletterName: `IG : ${instagram}` // نـفـس yts
+            newsletterName: `IG : ${instagram}`
         }
     }
     // ==============================================
 
-    const notStickerMessage = `*⚠️ الـرجـاء الـرد عـلـى سـتـيـكـر*\n\n*📌 مـثـال:*\n*${usedPrefix + command}*`
+    const notStickerMessage = `*⚠️ الـرجـاء قـم بـالـرد عـلـى الـصـورة*`
     
     if (!m.quoted) return conn.sendMessage(m.chat, {
         text: notStickerMessage,
@@ -29,10 +29,9 @@ let handler = async (m, { conn, usedPrefix, command }) => {
         await m.react('⏳')
         let media = await q.download()
         
-        // Convert sticker to image + signature فقط
         await conn.sendMessage(m.chat, {
             image: media, 
-            caption: `*📥 مـحـول الـسـتـيـكـر*\n\n*✅ تـم الـتـحـويـل بـنـجـاح*\n\n*by ${instagram}*`, // نـفـس تـوقـيـع yts
+            caption: `*📥 مـحـول الـسـتـيـكـر*\n\n*✅ تـم الـتـحـويـل بـنـجـاح*\n\n*by ${instagram}*`,
             contextInfo: newsletter
         }, { quoted: m })
         
@@ -46,8 +45,8 @@ let handler = async (m, { conn, usedPrefix, command }) => {
     }
 }
 
-handler.help = ['toimg <الـرد عـلـى سـتـيـكـر>'];
+handler.help = ['تحويل_ستيكر| toimg <الـرد عـلـى سـتـيـكـر>'];
 handler.tags = ['تـحـويـل'];
-handler.command = /^(s2img|toimg|stickertoimg)$/i;
+handler.command = /^(تحويل_ستيكر|toimg|img)$/i;
 handler.limit = false;
 export default handler
