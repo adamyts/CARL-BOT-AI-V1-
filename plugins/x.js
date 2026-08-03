@@ -146,7 +146,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ['x <الـرابـط>'];
 handler.tags = ['تـحـمـيـل'];
-handler.command = ['x', 'twitter'];
+handler.command = ['x', 'تويتر'];
 handler.limit = false
 handler.register = false
 
