@@ -157,6 +157,6 @@ function checkWin(b, mark){
 
 handler.help = ['xo', 'xo <1-9>', 'xoleave']
 handler.tags = ['game']
-handler.command = /^(xo|xoleave)$/i
+handler.command = /^(اكس_او|xoleave)$/i
 
 export default handler
