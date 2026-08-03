@@ -81,9 +81,9 @@ let handler = async (m, { conn, args, usedPrefix }) => {
     }
 }
 
-handler.help = ["aljazeera", "aj"];
+handler.help = ["aljazeera", "اخبار_الجزيرة"];
 handler.tags = ["اخـبـار"];
-handler.command = /^(aljazeera|aj)$/i;
+handler.command = /^(aljazeera|اخبار_الجزيرة)$/i;
 handler.limit = false;
 handler.register = false;
 export default handler;
