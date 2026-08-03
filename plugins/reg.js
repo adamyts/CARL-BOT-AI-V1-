@@ -75,5 +75,5 @@ let handler = async (m, { conn, usedPrefix, text }) => {
 
 handler.help = ['register <name> <age> <country>'];
 handler.tags = ['main'];
-handler.command = /^(daftar|reg|register)$/i;
+handler.command = /^(daftar|تسجيل|register)$/i;
 export default handler;
