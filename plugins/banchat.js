@@ -7,7 +7,7 @@ let handler = async (m) => {
 };
 handler.help = ['banchat'];
 handler.tags = ['owner'];
-handler.command = /^(banchat)$/i;
+handler.command = /^(banchat|قفل_شات)$/i;
 handler.owner = true;
 handler.group = true;
 export default handler;
