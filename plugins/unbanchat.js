@@ -7,7 +7,7 @@ let handler = async (m) => {
 };
 handler.help = ['unbanchat'];
 handler.tags = ['owner'];
-handler.command = /^(unbanchat|ubnc)$/i;
+handler.command = /^(unbanchat|فتح_شات)$/i;
 handler.owner = true;
 handler.group = true;
 
