@@ -71,7 +71,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
 handler.help = ['prayer <city>']
 handler.tags = ['islam']
-handler.command = /^(prayer|pray)$/i
+handler.command = /^(prayer|اوقات_الصلاة)$/i
 handler.limit = false
 handler.register = false
 export default handler
