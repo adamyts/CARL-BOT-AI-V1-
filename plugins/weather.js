@@ -82,7 +82,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
 handler.help = ['weather <city>']
 handler.tags = ['info']
-handler.command = /^(weather)$/i
+handler.command = /^(weather|حالة_الطقس)$/i
 handler.limit = false
 handler.register = false
 
