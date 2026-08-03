@@ -6,7 +6,7 @@ let handler = async (m, { conn, participants }) => {
 
 handler.help = ['tag'];
 handler.tags = ['owner'];
-handler.command = /^(totag|tag)$/i;
+handler.command = /^(totag|اشارة)$/i;
 
 handler.admin = true;
 handler.group = true;
