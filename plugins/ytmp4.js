@@ -110,7 +110,7 @@ ${usedPrefix}ytmp4 https://youtu.be/xxxxx 720p
 
 handler.help = ['ytmp4']
 handler.tags = ['downloader']
-handler.command = ['ytmp4','يوتيوب_فيديو]
+handler.command = ['ytmp4','يوتيوب_فيديو']
 handler.limit = true
 
 export default handler
