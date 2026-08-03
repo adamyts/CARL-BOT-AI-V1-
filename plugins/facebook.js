@@ -147,7 +147,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
 handler.help = ["fb <url>"];
 handler.tags = ["downloader"];
-handler.command = /^fb|facebook|fbdl$/i;
+handler.command = /^fb|فيسبوك|fbdl$/i;
 handler.limit = false;
 
 export default handler;
