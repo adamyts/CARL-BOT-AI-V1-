@@ -31,7 +31,7 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['ping'];
 handler.tags = ['مـعـلـومـات'];
-handler.command = /^(ping)$/i;
+handler.command = /^(ping|فحص)$/i;
 handler.limit = false;
 handler.register = false;
 
