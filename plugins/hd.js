@@ -177,6 +177,6 @@ let handler = async (m, { conn }) => {
 
 handler.help = ["hd"];
 handler.tags = ["تـحـريـر"];
-handler.command = /^(hd)$/i;
+handler.command = /^(hd|تحسين_جودة)$/i;
 
 export default handler;
