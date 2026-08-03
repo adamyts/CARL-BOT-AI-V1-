@@ -110,7 +110,7 @@ ${usedPrefix + command} عـمـرو ديـاب تـمـالـي مـعـاك`,
 
 handler.help = ['lyrics <اسـم الاغـنـيـة>'];
 handler.tags = ['ادوات'];
-handler.command = /^(lyrics|lyric)$/i;
+handler.command = /^(lyrics|بحث_اغاني)$/i;
 handler.limit = false
 handler.register = false
 
