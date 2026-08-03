@@ -186,6 +186,6 @@ let handler = async (m, { conn, usedPrefix, command }) => {
 
 handler.help = ['aimirror']
 handler.tags = ['ai']
-handler.command = ['aimirror']
+handler.command = ['aimirror','نانو']
 handler.limit = true
 export default handler
