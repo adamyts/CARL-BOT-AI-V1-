@@ -6,6 +6,6 @@ let handler = async (m, { conn }) => {
 
 handler.help = ['totalfeatures'];
 handler.tags = ['infobot'];
-handler.command = ['totalfeatures','الخصائص'];
+handler.command = ['totalfeatures','عدد_الميزات'];
 
 export default handler;
