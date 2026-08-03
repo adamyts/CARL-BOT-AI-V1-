@@ -14,7 +14,7 @@ let handler = async (m, { conn, text }) => {
 
 handler.help = ['unban @tag'];
 handler.tags = ['owner'];
-handler.command = /^unban(user)?$/i;
+handler.command = /^إلغاء|unban(user)?$/i;
 handler.owner = true;
 
 export default handler;
