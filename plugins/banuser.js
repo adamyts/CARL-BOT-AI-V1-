@@ -1,19 +1,21 @@
 let handler = async (m, { conn, text }) => {
-	if (!text) throw '*مـن تـريـد حـظــره؟*';
-	let who;
-	if (m.isGroup) who = m.mentionedJid[0];
-	else who = m.chat;
-	if (!who) throw '*مـنـشن الشـخـص*';
+	if (!text) throw '*❌ مـن تـريـد حـظـره؟*\n*مـثـال:*.حـظـر @user';
 	
+	let الشخص;
+	if (m.isGroup) الشخص = m.mentionedJid[0];
+	else الشخص = m.chat;
+	
+	if (!الشخص) throw '*❌ ديـر مـنـشـن لـلـشـخـص*';
+
 	// تأكد ان المستخدم موجود في قاعدة البيانات
-	global.db.data.users[who] = global.db.data.users[who] || {}
-	global.db.data.users[who].banned = true;
+	global.db.data.users[الشخص] = global.db.data.users[الشخص] || {}
+	global.db.data.users[الشخص].banned = true;
 	
-	await conn.reply(m.chat, `*✅ تــم حـظـر* @${who.split('@')[0]}`, m, { mentions: [who] })
+	await conn.reply(m.chat, `*✅ تــم حـظـر الـمـسـتـخـدم* @${الشخص.split('@')[0]} *بـنـجـاح*`, m, { mentions: [الشخص] })
 };
-handler.help = ['ban @tag'];
+handler.help = ['حظر @tag'];
 handler.tags = ['owner'];
-handler.command = /^ban(user)?$/i;
+handler.command = /^(حظر|ban(user)?)$/i;
 handler.owner = true;
 
 export default handler;
