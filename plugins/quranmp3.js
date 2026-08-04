@@ -1,122 +1,73 @@
-//تـرجـمـة وتـعـديـل: نـورديـن
-//بـلـوغـيـن: Izuku-mi | تـحـمـيـل قـرآن مـبـي 3
-
 import axios from 'axios';
 
-// ===== مـعـلـومـات الـقـنـاة + انـسـتـا =====
-const instagram = 'adam.__.98'
+// ===== معلومات القناة =====
+const channelName = 'IG : adam.__.98'
+const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
-        newsletterJid: '120363410733859643@newsletter', // بـدل بـمـعـرف الـقـنـاة ديـالـك
-        newsletterName: `IG : ${instagram}`
+        newsletterJid: CHANNEL_ID,
+        newsletterName: channelName
     }
 }
-// =================================================
-
-const Murottal = {
-    async list() {
-        try {
-            let res = await axios.get('https://www.assabile.com/ajax/loadplayer-12-9');
-            if (!res.data ||!res.data.Recitation) throw new Error('*❌ بـيـانـات غـيـر صـالـحـة*');
-            return res.data.Recitation;
-        } catch (error) {
-            console.error('Error while fetching the murottal list:', error.message);
-            return [];
-        }
-    },
-    async search(q) {
-        let list = await Murottal.list();
-        if (list.length === 0) return [];
-
-        if (typeof q === 'number') return [list[q - 1]];
-
-        q = q.toLowerCase().replace(/\W/g, '');
-        return list.filter(_ =>
-            _.span_name.toLowerCase().replace(/\W/g, '').includes(q)
-        );
-    },
-    async audio(d) {
-        try {
-            if (!d.href) throw new Error('*❌ الـبـيـانـات لا تـحـتـوي عـلـى href*');
-            let res = await axios.get(`https://www.assabile.com/ajax/getrcita-link-${d.href.slice(1)}`, {
-                headers: {
-                    'authority': 'www.assabile.com',
-                    'accept': '*/*',
-                    'referer': 'https://www.assabile.com/abdul-rahman-al-sudais-12/abdul-rahman-al-sudais.htm',
-                    'user-agent': 'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36',
-                    'x-requested-with': 'XMLHttpRequest'
-                },
-                decompress: true
-            });
-
-            if (!res.data) throw new Error('*❌ فـشـل جـلـب الـصـوت*');
-            return res.data;
-        } catch (error) {
-            console.error('Error while fetching audio:', error.message);
-            return null;
-        }
-    }
-};
+// ========================
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
+    if (!text) {
+        let list = `*📖 الـقـرآن الـكـريـم*\n\n`
+        list += `*الـطـريـقـة:* ${usedPrefix}${command} <رقـم الـسـورة>\n\n`
+        list += `*امـثـلـة:*\n`
+        list += `• ${usedPrefix}${command} 1 → الـفـاتـحـة\n`
+        list += `• ${usedPrefix}${command} 36 → يـس\n`
+        list += `• ${usedPrefix}${command} 112 → الإخـلاص\n`
+        list += `*الـقـارئ:* أبـو بـكـر الـشـاطـري`
+        return conn.sendMessage(m.chat, { text: list, contextInfo: newsletter }, { quoted: m });
+    }
 
-    if (!text) return conn.sendMessage(m.chat, {
-        text: `*📌 الـطـريـقـة:* \n${usedPrefix}quranmp3 1\n${usedPrefix}quranmp3 الـبـقـرة`,
-        contextInfo: newsletter
-    }, { quoted: m })
+    let surahNumber = parseInt(text);
+    if (isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
+        return conn.sendMessage(m.chat, { 
+            text: `*❌ رقـم الـسـورة غـلـط*\n*خـص يـكـون مـن 1 لـ 114*`, 
+            contextInfo: newsletter 
+        }, { quoted: m });
+    }
 
-    await conn.sendMessage(m.chat, {
-        text: `*⏳ جـاري تـحـمـيـل الـمـقـطـع الـصـوتـي...*`,
-        contextInfo: newsletter
-    }, { quoted: m })
-
+    await m.react('⏳');
+    
     try {
-        let searchResults = await Murottal.search(isNaN(parseInt(text))? text : parseInt(text));
-        if (searchResults.length === 0) {
-            await m.react('❌')
-            return conn.sendMessage(m.chat, {
-                text: '*❌ لــم يــتــم الــعــثــور عــلــى الــتــلــاوة*',
-                contextInfo: newsletter
-            }, { quoted: m })
-        }
-
-        let audioUrl = await Murottal.audio(searchResults[0]);
-
-        if (!audioUrl) {
-            await m.react('❌')
-            return conn.sendMessage(m.chat, {
-                text: '*❌ فـشـل جـلـب الـصـوت*',
-                contextInfo: newsletter
-            }, { quoted: m })
-        }
-
-        let name = searchResults[0].span_name
-
-        // 1. Send audio فقط بلا كابتشن
+        let url = `https://server11.mp3quran.net/shatri/${String(surahNumber).padStart(3, '0')}.mp3`;
+        
+        let surahNames = ['الفاتحة', 'البقرة', 'آل عمران', 'النساء', 'المائدة', 'الأنعام', 'الأعراف', 'الأنفال', 'التوبة', 'يونس', 'هود', 'يوسف', 'الرعد', 'إبراهيم', 'الحجر', 'النحل', 'الإسراء', 'الكهف', 'مريم', 'طه', 'الأنبياء', 'الحج', 'المؤمنون', 'النور', 'الفرقان', 'الشعراء', 'النمل', 'القصص', 'العنكبوت', 'الروم', 'لقمان', 'السجدة', 'الأحزاب', 'سبأ', 'فاطر', 'يس', 'الصافات', 'ص', 'الزمر', 'غافر', 'فصلت', 'الشورى', 'الزخرف', 'الدخان', 'الجاثية', 'الأحقاف', 'محمد', 'الفتح', 'الحجرات', 'ق', 'الذاريات', 'الطور', 'النجم', 'القمر', 'الرحمن', 'الواقعة', 'الحديد', 'المجادلة', 'الحشر', 'الممتحنة', 'الصف', 'الجمعة', 'المنافقون', 'التغابن', 'الطلاق', 'التحريم', 'الملك', 'القلم', 'الحاقة', 'المعارج', 'نوح', 'الجن', 'المزمل', 'المدثر', 'القيامة', 'الإنسان', 'المرسلات', 'النبأ', 'النازعات', 'عبس', 'التكوير', 'الانفطار', 'المطففين', 'الانشقاق', 'البروج', 'الطارق', 'الأعلى', 'الغاشية', 'الفجر', 'البلد', 'الشمس', 'الليل', 'الضحى', 'الشرح', 'التين', 'العلق', 'القدر', 'البينة', 'الزلزلة', 'العاديات', 'القارعة', 'التكاثر', 'العصر', 'الهمزة', 'الفيل', 'قريش', 'الماعون', 'الكوثر', 'الكافرون', 'النصر', 'المسد', 'الإخلاص', 'الفلق', 'الناس'];
+        
+        let surahName = surahNames[surahNumber - 1];
+        
+        let caption = `*📖 سـورة ${surahName}*\n*🎙️ الـقـارئ:* أبـو بـكـر الـشـاطـري\n*✨ اسـتـمـع وتـدبـر*`;
+        
         await conn.sendMessage(m.chat, {
-            audio: { url: audioUrl },
+            audio: { url: url },
             mimetype: 'audio/mpeg',
-            fileName: `${name}.mp3`,
+            fileName: `سورة_${surahName}.mp3`,
             ptt: false,
+            caption: caption,
             contextInfo: newsletter
         }, { quoted: m });
-
-        await m.react('✅')
-
-    } catch (error) {
-        console.error(error)
-        await m.react('❌')
-        conn.sendMessage(m.chat, {
-            text: `*❌ حـدث خـطـأ*`,
-            contextInfo: newsletter
-        }, { quoted: m })
+        
+        await m.react('✅');
+        
+    } catch (e) {
+        console.error(e);
+        await m.react('❌');
+        conn.sendMessage(m.chat, { 
+            text: `*❌ فـشـل الـتـحـمـيـل*\n*جـرب مـرة أخـرى*`, 
+            contextInfo: newsletter 
+        }, { quoted: m });
     }
-};
+}
 
-handler.help = ['quranmp3 <الـرقـم/الاسـم>'];
-handler.tags = ['ديـنـي'];
-handler.command = /^(quranmp3)$/i;
-handler.limit = false
+handler.help = ['صوت_القران <رقم_السورة>', 'quran <surah_number>'];
+handler.tags = ['ادوات', 'tools'];
+handler.command = /^(صوت_القران|قران|قرآن|quran)$/i;
+handler.limit = false;
+
 export default handler;
