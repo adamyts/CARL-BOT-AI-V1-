@@ -8,5 +8,5 @@ function handler(m) {
 }
 handler.help = ['owner'];
 handler.tags = ['infobot'];
-handler.command = ['owner', 'creator'];
+handler.command = ['owner', 'مطور'];
 export default handler;
