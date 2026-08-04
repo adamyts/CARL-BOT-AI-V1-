@@ -233,7 +233,7 @@ export async function handler(chatUpdate) {
 								let data = (await conn.onWhatsApp(jid))[0] || {};
 								if (data.exists)
 									m.reply(
-										`*🗂️ Plugin:* ${m.plugin}\n*👤 Sender:* ${m.sender}\n*💬 Chat:* ${m.chat}\n*💻 Command:* ${usedPrefix}${command} ${args.join(' ')}\n📄 *Error Logs:*\n\n\`\`\`${text}\`\`\``.trim(),
+										`*🗂️ الإضـافـة:* ${m.plugin}\n*👤 المـرسـل:* ${m.sender}\n*💬 المـحادثـة:* ${m.chat}\n*💻 الأمــر:* ${usedPrefix}${command} ${args.join(' ')}\n📄 *سجل الأخـطـاء:*\n\n\`\`\`${text}\`\`\``.trim(),
 										data.jid
 									);
 							}
@@ -381,15 +381,15 @@ export async function deleteUpdate(message) {
 
 global.dfail = (type, m, conn) => {
 	let msg = {
-		rowner: 'Only Developer - This command is for the bot developer only\nهذا الأمر مخصص للمطور فقط',
-owner: 'Only Owner - This command is for the bot owner only\nهذا الأمر مخصص لمالك البوت فقط',
-premium: 'Only Premium - This command is for premium users only\nهذا الأمر مخصص للمستخدمين المميزين فقط',
-group: 'Group Chat - This command can only be used in groups\nهذا الأمر يعمل داخل المجموعات فقط',
-private: 'Private Chat - This command can only be used in private chat\nهذا الأمر يعمل في المحادثة الخاصة فقط',
-admin: 'Only Admin - This command is for group admins only\nهذا الأمر مخصص للمشرفين فقط',
-botAdmin: 'Only Bot Admin - This command requires the bot to be an admin\nهذا الأمر يتطلب أن يكون البوت مشرفاً',
-unreg: 'Hello! 👋 You need to register in the bot database first before using this feature\nWrite .daftar Name.age to register\n\nمرحباً! 👋 يجب عليك التسجيل في قاعدة بيانات البوت أولاً قبل استخدام هذه الميزة\nاكتب .daftar الاسم.العمر للتسجيل',
-restrict: 'Restrict - This feature has not been activated in this chat\nهذه الميزة غير مفعّلة في هذه المحادثة',
+		rowner: '*هـذا الأمـر مخـصص للمـطور فـقـط👨‍💻*',
+owner: '*هـذا الأمـر مخـصـص لمـالك البـوت فـقط 🧑‍💻*',
+premium: '*هـذا الأمـر مـخصص للمسـتخدميـن الـمميـزين فـقـط 🤷‍♂️*',
+group: '*الأمـر يعـمل داخـل المجـموعـات فـقـط ⚡️*',
+private: '*هـذا الأمـر يـعـمل فـي الـمحادثـة الـخاصـة فـقـط 🌟*',
+admin: '*هـذا الأمـر مخـصـص للمـشـرفـين فـقـط 🎯*',
+botAdmin: '*هـذا الأمـر يتـطـلب أن يكـون البـوت مـشرفـاً ⚠️*',
+unreg: '*مرحباً! 👋 يـجب عـليـك التسجـيل فـي قـاعـدة بـيانات البـوت أولاً قـبل اسـتخـدام هـذه المـيـزة\nاكتـب .تسجيل الاسـم.الـعمر للتسـجيل*',
+restrict: '*هـذه المـيزة غـير مفـعّلة فـي هـذه المحـادثـة ❌️*',
 	}[type];
 	if (msg) return conn.reply(m.chat, msg, m);
 };
