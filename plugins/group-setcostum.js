@@ -1,31 +1,30 @@
 let handler = async (m, { usedPrefix, command, text }) => {
-	if (!text) throw `Where is the text?\n\nExample:\n${usedPrefix + command} Hi @user\n\n@user = User Tag\n@subject = Group Name\n@desc = Group Description`;
+	if (!text) throw `*واين هو النص؟*\n\n*مثال:*\n${usedPrefix + command} مـرحـبـا @user\n*@user* = مـنـشـن الـعـضـو\n*@subject* = اسـم الـمـجـمـوعـة\n*@desc* = وصـف الـمـجـمـوعـة`;
 	let chat = global.db.data.chats[m.chat];
 
 	switch (command) {
-		case 'setwelcome':
+		case 'رسالة_الترحيب':
 			chat.sWelcome = text;
-			m.reply('✅ Welcome message successfully set:\n' + text);
+			m.reply('✅ *تـم تـعـيـيـن رسـالـة الـتـرحـيـب بـنـجـاح:*\n' + text);
 			break;
-		case 'setbye':
+		case 'رسالة_المغادرة':
 			chat.sBye = text;
-			m.reply('✅ Goodbye message successfully set:\n' + text);
+			m.reply('✅ *تـم تـعـيـيـن رسـالـة الـمـغـادرة بـنـجـاح:*\n' + text);
 			break;
-		case 'setpromote':
+		case 'رسالة_الترقية':
 			chat.sPromote = text;
-			m.reply('✅ Promote message successfully set:\n' + text);
+			m.reply('✅ *تـم تـعـيـيـن رسـالـة الـتـرقـيـة بـنـجـاح:*\n' + text);
 			break;
-		case 'setdemote':
+		case 'رسالة_التنزيل':
 			chat.sDemote = text;
-			m.reply('✅ Demote message successfully set:\n' + text);
+			m.reply('✅ *تـم تـعـيـيـن رسـالـة الـتـنـزيـل بـنـجـاح:*\n' + text);
 			break;
 	}
 };
 
-handler.help = ['setwelcome', 'setbye', 'setpromote', 'setdemote'];
-handler.tags = ['owner'];
-handler.command = /^(setwelcome|setbye|setpromote|setdemote)$/i;
+handler.help = ['رسالة_الترحيب', 'رسالة_المغادرة', 'رسالة_الترقية', 'رسالة_التنزيل'];
+handler.tags = ['group'];
+handler.command = /^(رسالة_الترحيب|رسالة_المغادرة|رسالة_الترقية|رسالة_التنزيل)$/i;
 handler.group = true;
 handler.admin = true;
-handler.owner= true;
 export default handler;
