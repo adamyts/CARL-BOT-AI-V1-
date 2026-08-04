@@ -3,7 +3,7 @@
  * Scraping may be against the terms of service of the website.
  * Use it at your own risk.
  * @author wolep
- * plugin by noureddine ouafy
+ * plugin by adam.__.98
  */
 
 const gemini = {
@@ -65,26 +65,26 @@ const gemini = {
         const data = await response.text();
         const match = data.matchAll(/^\d+\n(.+?)\n/gm);
         
-        // **NEW ROBUST PARSING LOGIC**
+      
         const chunks = Array.from(match, m => m[1]);
         let text, newResumeArray;
         let found = false;
 
-        // Iterate through response chunks from the end to find the valid one.
+      
         for (const chunk of chunks.reverse()) {
             try {
                 const realArray = JSON.parse(chunk);
                 const parse1 = JSON.parse(realArray[0][2]);
                 
-                // Check if the expected data structure for the answer exists.
+                
                 if (parse1 && parse1[4] && parse1[4][0] && parse1[4][0][1] && typeof parse1[4][0][1][0] === 'string') {
                     newResumeArray = [...parse1[1], parse1[4][0][0]];
                     text = parse1[4][0][1][0].replace(/\*\*(.+?)\*\*/g, `*$1*`);
                     found = true;
-                    break; // Exit loop once the correct chunk is found and parsed.
+                    break; 
                 }
             } catch (e) {
-                // Ignore chunks that don't parse correctly and continue.
+              
             }
         }
 
@@ -98,22 +98,37 @@ const gemini = {
 };
 
 const geminiSessions = {};
+const autoAiChats = new Set();
 
 let handler = async (m, { conn, text, usedPrefix, command }) => {
-    if (!text) throw `الـرجـاء إدخـال أمـر أو وصــف. \n\n*مـثــل:* ${usedPrefix + command} تـعلــم الـلغـه الـبرمـجـة?`;
+    const chat = m.chat;
+    const input = text?.trim()?.toLowerCase();
 
-    if (text.toLowerCase() === '--reset') {
-        delete geminiSessions[m.sender];
-        return m.reply('🤖 تمـت إعـادة تعيـين سجـل الـمحـادثـة');
+    // Toggle Auto AI mode
+    if (input === 'on') {
+        autoAiChats.add(chat);
+        return m.reply('✅ تــم *تفعيل* الـذكـاء التـلقائـي لهـذه المـحـادثـة.');
     }
-    
+
+    if (input === 'off') {
+        autoAiChats.delete(chat);
+        return m.reply('❌ تــم *تعطيل* الذكــاء التـلقائـي لهـذه المـحادثـة.');
+    }
+
+    if (input === '--reset') {
+        delete geminiSessions[m.sender];
+        return m.reply('🤖 Conversation history has been reset.');
+    }
+
+    if (!text) throw `اىســل الجــواب.\n\n*مــثــل:* ${usedPrefix + command} Hello\n*Options:* ${usedPrefix + command} on | off`;
+
     try {
-        await m.reply('*⏳ لحـظـة واحـدة عـزيـزي/ عـزيـزتي، أقـوم بـإعــداد إجـابـتـك...*');
+        await m.reply('⏳ لحـظة واحـدة، جـاري تحـضير إجابتـك');
         
         const previousId = geminiSessions[m.sender];
         const result = await gemini.ask(text, previousId);
         geminiSessions[m.sender] = result.id;
-        await conn.reply(m.chat, result.text, m);
+        await conn.reply(chat, result.text, m);
 
     } catch (e) {
         console.error(e);
@@ -121,9 +136,28 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     }
 };
 
-handler.help = ['ai'];
+
+handler.before = async function (m, { conn }) {
+    if (m.isBaileys || !m.text || m.fromMe) return;
+    if (!autoAiChats.has(m.chat)) return;
+
+    
+    if (m.text.startsWith('.') || m.text.startsWith('#') || m.text.startsWith('/')) return;
+
+    try {
+        await conn.sendPresenceUpdate('composing', m.chat);
+        const previousId = geminiSessions[m.sender];
+        const result = await gemini.ask(m.text, previousId);
+        geminiSessions[m.sender] = result.id;
+        await conn.reply(m.chat, result.text, m);
+    } catch (e) {
+        console.error('Auto AI Error:', e);
+    }
+};
+
+handler.help = ['ai', 'ai on', 'ai off'];
 handler.tags = ['ai'];
-handler.command = /^(ai)$/i;
+handler.command = /^(ai|دكاء)$/i;
 handler.limit = true;
 
 export default handler;
