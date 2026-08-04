@@ -15,58 +15,31 @@ const newsletter = {
 const instaLink = `https://instagram.com/${instagram}`
 // ======================================
 
-// لائحة 20 مدينة مغربية مشهورة
-const MOROCCO_CITIES = [
-    'Casablanca', 'Rabat', 'Marrakech', 'Fes', 'Tangier',
-    'Agadir', 'Oujda', 'Kenitra', 'Tetouan', 'Safi',
-    'Meknes', 'Nador', 'El Jadida', 'Beni Mellal', 'Taza',
-    'Khouribga', 'Mohammedia', 'Laayoune', 'Guelmim', 'Dakhla'
-]
-
 let handler = async (m, { conn, args, usedPrefix: _p }) => {
     let city = args.join(' ')
 
-    // إلا كتب المدينة مباشرة.weather casablanca
+    // إلا كتب المدينة مباشرة.الطقس casablanca
     if(city) {
         return await getWeather(m, conn, city, _p)
     }
 
-    // إلا كتب.weather بوحدها → طلع القائمة
-    let sections = [
-        {
-            title: "🇲🇦 مـدن الـمـغـرب",
-            rows: MOROCCO_CITIES.map((c, i) => ({
-                title: `${i + 1}. ${c}`,
-                description: `الـطـقـس فـي ${c}`,
-                id: `${_p}weather ${c}`
-            }))
-        }
-    ]
-
-    let caption = `🌤️ *الـطـقـس فـي الـمـغـرب* 🌤️
-
-*اخـتـر الـمـديـنـة لـمـعـرفـة الـطـقـس*
-*او كـتـب.weather اسـم الـمـديـنـة*
-
-© Powered By 👑 ${instagram} 👑`
+    // إلا كتب.الطقس بوحدها → طلع رسالة الشرح بلا قائمة
+    let caption = `🌤️ *الـطـقـس فـي الـمـغـرب* 🌤️\n\n`
+    caption += `*اخـتـر الـمـديـنـة لـمـعـرفـة الـطـقـس*\n\n`
+    caption += `*مـثـل*\n\`${_p}الـطـقـس casablanca\`\n`
+    caption += `\`${_p}الـطـقـس agadir\`\n`
+    caption += `\`${_p}الـطـقـس rabat\`\n\n`
+    caption += `By adam.__.98`
 
     await conn.sendMessage(m.chat, {
-        image: { url: 'https://i.imgur.com/8Km9tLL.jpg' },
-        caption: caption,
+        text: caption,
         footer: { text: `WEATHER MA` },
         buttons: [
             {
-                name: 'single_select',
-                buttonParamsJson: JSON.stringify({
-                    title: '🌤️ اخـتـر مـديـنـتـك',
-                    sections: sections
-                }),
-            },
-            {
-                name: 'cta_url',
+                name: 'quick_reply',
                 buttonParamsJson: JSON.stringify({
                     display_text: '📸 الانـسـتـغـرام',
-                    url: instaLink
+                    id: instaLink
                 }),
             }
         ],
@@ -77,7 +50,7 @@ let handler = async (m, { conn, args, usedPrefix: _p }) => {
 async function getWeather(m, conn, city, _p) {
     await conn.sendMessage(m.chat, { react: { text: "⏳", key: m.key } })
     await conn.sendMessage(m.chat, {
-        text: `⏳ *كـنـشـوف الـطـقـس فـي ${city}...*`,
+        text: `⏳ *يـتـم البـحـث عـن حـالـة الطـقس ${city}...*`,
         contextInfo: newsletter
     }, { quoted: m })
 
@@ -110,26 +83,24 @@ async function getWeather(m, conn, city, _p) {
         }
 
         let weather = codes[w.current.weather_code] || '☁️ غـيـر مـعـروف'
-
         let date = moment().tz('Africa/Casablanca').format('DD/MM/YYYY HH:mm')
 
         // Result
-        let txt = `*🌤️ الـطـقـس فـي ${name}* 🌤️
-
-📍 *الـبـلـد*: ${country}
-🌡️ *الـحـرارة*: ${w.current.temperature_2m}°C
-☁️ *الـحـالـة*: ${weather}
-💧 *الـرطـوبـة*: ${w.current.relative_humidity_2m}%
-💨 *الـريـاح*: ${w.current.wind_speed_10m} km/h
-🔥 *الـعـظـمـى*: ${w.daily.temperature_2m_max[0]}°C
-❄️ *الـصـغـرى*: ${w.daily.temperature_2m_min[0]}°C
-📅 *الـتـحـديـث*: ${date}`
+        let txt = `*🌤️ الـطـقـس فـي ${name}* 🌤️\n\n`
+        txt += `📍 *الـبـلـد*: ${country}\n`
+        txt += `🌡️ *الـحـرارة*: ${w.current.temperature_2m}°C\n`
+        txt += `☁️ *الـحـالـة*: ${weather}\n`
+        txt += `💧 *الـرطـوبـة*: ${w.current.relative_humidity_2m}%\n`
+        txt += `💨 *الـريـاح*: ${w.current.wind_speed_10m} km/h\n`
+        txt += `🔥 *الـعـظـمـى*: ${w.daily.temperature_2m_max[0]}°C\n`
+        txt += `❄️ *الـصـغـرى*: ${w.daily.temperature_2m_min[0]}°C\n`
+        txt += `📅 *الـتـحـديـث*: ${date}`
 
         await conn.sendMessage(m.chat, {
             text: txt,
             footer: { text: `WEATHER MA` },
             buttons: [
-                {name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '🌤️ الـرجـوع لائـحـة الـمـدن', id: _p + 'weather'})}
+                {name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '🌤️ بـحـث جـديـد', id: _p + 'الـطـقـس'})}
             ],
             contextInfo: newsletter
         }, { quoted: m, mentions: [m.sender] })
@@ -146,10 +117,10 @@ async function getWeather(m, conn, city, _p) {
     }
 }
 
-handler.help = ['weather <city>']
-handler.tags = ['info']
-handler.command = /^(weather|حالة_الطقس)$/i
-handler.limit = false
-handler.register = false
+handler.help = ['الـطـقـس <المدينة>'];
+handler.tags = ['info'];
+handler.command = /^(الـطـقـس|weather|حالة_الطقس)$/i;
+handler.limit = false;
+handler.register = false;
 
-export default handler
+export default handler;
