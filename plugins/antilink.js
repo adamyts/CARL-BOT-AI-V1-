@@ -1,28 +1,37 @@
 // instagram.com/noureddine_ouafy
-let before = async function (m, { conn, isAdmin, isBotAdmin }) {
-  // Regex for WhatsApp channels and groups
-  const regex = /https:\/\/chat\.whatsapp\.com\/[A-Za-z0-9]+|https:\/\/whatsapp\.com\/channel\/[A-Za-z0-9]{22}/
+let handler = m => m
+handler.before = async function (m, { conn, isAdmin, isBotAdmin }) {
+    if (!m.isGroup) return
+    if (!m.text) return
+    
+    let chat = global.db.data.chats[m.chat]
+    if (!chat.antilink) return // ← مهم: يخدم غير ملي يكون مفعل
 
-  if (regex.test(m.text)) {
-    if (isAdmin) return // Ignore if the sender is an admin
-    if (!isBotAdmin) return // Bot must be admin to delete or remove
+    // Regex للروابط ديال الواتساب مجموعات وقنوات
+    const regex = /https?:\/\/(chat\.whatsapp\.com|whatsapp\.com\/channel)\/[A-Za-z0-9]+/i
 
-    // Send warning message
-    await conn.sendMessage(
-      m.chat,
-      {
-        text: `⚠️ *تـم اكـتـشاف رابــط قـنــاة أو مـجـمـوعــة!*\n\nالــعــضـو *@${m.sender.split('@')[0]}* تــم طـرده لأنـه خـالــف قـوانــين الـمـجــموعـة وقــام بإرســال روابـــط.\n\n🚫 هـذا التـصرف مـمنوع تمـامًـا.`,
-        mentions: [m.sender]
-      },
-      { quoted: m }
-    )
+    if (regex.test(m.text)) {
+        if (isAdmin) return // الادمين مسموح ليه
+        if (!isBotAdmin) return m.reply('*⚠️ البـوت ليــس مـشـرف فـي الـمجـمـوعـة لـذلـك لا يسـتـطيـع الـحـذف الـرابـط*')
 
-    // Delete the message containing the link
-    await conn.sendMessage(m.chat, { delete: m.key })
+        let user = `@${m.sender.split('@')[0]}`
+        
+        // 1. حذف الرسالة
+        try { await conn.sendMessage(m.chat, { delete: m.key }) } catch {}
+        
+        // 2. تحذير + طرد
+        await conn.sendMessage(
+            m.chat,
+            {
+                text: `⚠️ *تـم اكـتـشاف رابــط مـمـنـوع!*\n\nالــعــضـو ${user} تــم طـرده لأنـه أرســل رابـط مـجـمـوعـة/قـنـاة.\n\n🚫 إرسـال الـروابـط مـمـنـوع فـي هـذه الـمـجـمـوعـة.`,
+                mentions: [m.sender]
+            },
+            { quoted: m }
+        )
 
-    // Kick the user who sent the link
-    await conn.groupParticipantsUpdate(m.chat, [m.sender], "remove")
-  }
+        // 3. طرد العضو
+        await conn.groupParticipantsUpdate(m.chat, [m.sender], "remove")
+    }
 }
 
-export default { before }
+export default handler
