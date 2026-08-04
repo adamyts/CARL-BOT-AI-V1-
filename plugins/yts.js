@@ -129,8 +129,8 @@ let handler = async (m, { conn, text, usedPrefix: _p, command }) => {
   }
 }
 
-handler.help = ['yts <البحث>']
+handler.help = [' <البحث>']
 handler.tags = ['search']
-handler.command = ['yts', 'بحث']
+handler.command = ['yts', 'ytinfo' , 'بحث']
 handler.limit = false
 export default handler
