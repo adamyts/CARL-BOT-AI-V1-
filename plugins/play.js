@@ -82,7 +82,7 @@ const handler = async (m, { text, conn }) => {
     }
 }
 
-handler.command = ["play", ".تحميل_اغنية",]
+handler.command = ["play", "تحميل_اغنية"]
 handler.help = ["play <الـبـحـث>"]
 handler.tags = ["تـحـمـيـل"]
 export default handler
