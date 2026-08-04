@@ -134,9 +134,9 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
     }
 }
 
-handler.help = ['githubsearch <query>', 'githubinfo <owner/repo>']
+handler.help = ['githubsearch <query>', 'جيتهاب <owner/repo>']
 handler.tags = ['search']
-handler.command = /^githubsearch$|^githubinfo$/i
+handler.command = /^githubsearch$|^جيتهاب$/i
 handler.limit = false
 export default handler
 
