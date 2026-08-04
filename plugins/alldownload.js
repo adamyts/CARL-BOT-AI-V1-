@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// ===== Channel Info + Instagram =====
-const channelName = 'GI : adam.__.98'
+// ===== معلومات القناة + الانستغرام =====
+const channelName = 'IG : adam.__.98'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const instagram = 'adam.__.98'
 const newsletter = {
@@ -85,8 +85,8 @@ function extractMediaUrl(data) {
     data?.result?.[0]?.url,
     data?.data?.[0]?.url,
     data?.urls?.[0],
-   ...(Array.isArray(data?.medias)? data.medias.map(x => x?.url) : []),
-   ...(Array.isArray(data?.results)? data.results.map(x => x?.url) : []),
+  ...(Array.isArray(data?.medias)? data.medias.map(x => x?.url) : []),
+  ...(Array.isArray(data?.results)? data.results.map(x => x?.url) : []),
   ]
   return candidates.find(u => typeof u === 'string' && u.startsWith('http')) || null
 }
@@ -188,7 +188,7 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
     || mediaUrl.includes('.mp3')
     || mediaUrl.includes('.m4a')
 
-  const caption = `*📥 ${title}*\n\n*الـمـنـصـة:* ${mode}`
+  const caption = `*📥 ${title}*\n\n*الـمـنـصـة:* ${mode}\n*المطور:* @adam.__.98`
 
   try {
     if (isAudio) {
@@ -228,8 +228,8 @@ const handler = async (m, { conn, usedPrefix, command, args }) => {
   }
 }
 
-handler.help = ['alldownload <link>']
-handler.command = /^(alldownload)$/i
-handler.tags = ['tools']
+handler.help = ['تحميل <الرابط>', 'alldownload <link>']
+handler.command = /^(تحميل|alldownload|تنزيل)$/i
+handler.tags = ['ادوات', 'tools']
 handler.limit = false
 export default handler
