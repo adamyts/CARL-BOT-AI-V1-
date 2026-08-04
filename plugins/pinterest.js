@@ -27,7 +27,7 @@ async function getSession() {
     return { cookies, csrf }
 }
 
-async function pinterestSearch(query, options = {}) {
+async function البحث_بنتـرست(query, options = {}) {
     const { limit = 5, scope = "pins", bookmark = null } = options
     const session = await getSession()
 
@@ -37,7 +37,7 @@ async function pinterestSearch(query, options = {}) {
             scope,
             page_size: limit,
             refine_search_with_filters: true,
-           ...(bookmark? { bookmarks: [bookmark] } : {})
+          ...(bookmark? { bookmarks: [bookmark] } : {})
         },
         context: {}
     }
@@ -56,8 +56,8 @@ async function pinterestSearch(query, options = {}) {
             "x-pinterest-appstate": "active",
             "x-pinterest-pws-handler": "www/search/[scope].js",
             "x-pinterest-source-url": sourceUrl,
-           ...(session.csrf? { "x-csrftoken": session.csrf } : {}),
-           ...(session.cookies? { "cookie": session.cookies } : {})
+          ...(session.csrf? { "x-csrftoken": session.csrf } : {}),
+          ...(session.cookies? { "cookie": session.cookies } : {})
         }
     })
 
@@ -92,7 +92,7 @@ async function pinterestSearch(query, options = {}) {
 let handler = async (m, { conn, text, usedPrefix, command }) => {
     if (!text) {
         return conn.sendMessage(m.chat, {
-            text: `*📌 الـطـريـقـة:* ${usedPrefix + command} <كـلـمـة الـبـحـث>\n\n*مـثـال:* \n• ${usedPrefix + command} logo design\n• ${usedPrefix + command} aesthetic room\n• ${usedPrefix + command} anime wallpaper\n\n*الـنـتـائـج:* يـرسـل 5 صـور مـن بـنـتـرست مـع الـرابـط`,
+            text: `*📌 طـريـقـة الاسـتـخـدام:* ${usedPrefix + command} <كـلـمـة الـبـحـث>\n\n*مـثـال:* \n• ${usedPrefix + command} تـصـمـيـم شـعـار\n• ${usedPrefix + command} ديـكـور غـرفـة\n• ${usedPrefix + command} خـلـفـيـة انـمـي\n*الـنـتـائـج:* يـرسـل 5 صـور مـن بـنـتـرست مـع الـرابـط`,
             contextInfo: newsletter
         }, { quoted: m })
     }
@@ -100,13 +100,13 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     const query = text.trim()
     await m.react('⏳')
     await conn.sendMessage(m.chat, {
-        text: `*🔍  أبـحث في بـنـتـرست  عـن :* "${query}"...`,
+        text: `*🔍 كـنـقـلـب فـي بـنـتـرست عـلـى :* "${query}"...`,
         contextInfo: newsletter
     }, { quoted: m })
 
     let data
     try {
-        data = await pinterestSearch(query, { limit: 5 })
+        data = await البحث_بنتـرست(query, { limit: 5 })
     } catch (err) {
         return conn.sendMessage(m.chat, {
             text: `*❌ فـشـل الاتـصـال بـبـنـتـرست*\n\n*الـخـطـأ:* ${err.message}`,
@@ -116,7 +116,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (data.error ||!data.results?.length) {
         return conn.sendMessage(m.chat, {
-            text: `*😕  لـم أجـــد أي شـيء عــن* "${query}"\n*جـرب كـلـمـة خـرى*`,
+            text: `*😕 مـلـقـيـتـش والـو عـلـى* "${query}"\n*جـرب كـلـمـة خـرى*`,
             contextInfo: newsletter
         }, { quoted: m })
     }
@@ -151,8 +151,8 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     await m.react('✅')
 }
 
-handler.help = ['pinterest <text>']
+handler.help = ['بينترست <النص>']
 handler.tags = ['tools']
-handler.command = /^pinterest$/i
+handler.command = /^(بينترست|pinterest)$/i
 handler.limit = true
 export default handler
