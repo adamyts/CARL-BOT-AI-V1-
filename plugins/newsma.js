@@ -82,7 +82,7 @@ let handler = async (m, { conn, args, usedPrefix }) => {
 
 handler.help = ["newsma"]
 handler.tags = ["morocco"]
-handler.command = /^(newsma)$/i
+handler.command = /^(newsma|اخبار_المغرب)$/i
 handler.limit = false
 handler.register = false
 export default handler
