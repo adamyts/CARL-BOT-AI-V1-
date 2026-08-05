@@ -15,7 +15,7 @@ const handler = async (m, { text, conn }) => {
         }
         // ========================
 
-        if (!text) return m.reply("📥*الـرجـاء إدخـال اســم الأغـنـية وسـأقـوم بـتحـمله لـك فــوراً*\n\n*📌 مـثـال :* `.تحميل_اغنية سـورة الـبقـرة `", m.chat, { contextInfo: newsletter })
+        if (!text) return m.reply("📥*الـرجـاء إدخـال اســم الأغـنـية وسـأقـوم بـتحـمله لـك فــوراً*\n\n*📌 `مـثـال :* `.تحميل_اغنية سـورة الـبقـرة `", m.chat, { contextInfo: newsletter })
 
         await m.react('🔍')
 
