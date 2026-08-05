@@ -26,7 +26,7 @@ let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner }) => {
 
 		return await conn.sendButton(m.chat,{
 			image: { url: 'https://files.catbox.moe/e6ztfh' },
-			caption: `⚙️ *اعـدادات الـبـوت*\n\n*`,
+			caption: `⚙️ *اعـدادات الـبـوت*\n\n`,
 			footer: { text: "© 𝘾𝘼𝙍𝙇-𝘽𝙊𝙏" },
 			buttons: [
 				{name:'single_select', buttonParamsJson:JSON.stringify({title:'✅ تـفـعـيـل', sections})},
