@@ -24,7 +24,7 @@ let handler = async (m, { conn, usedPrefix, text }) => {
         // 1. If no text, show info / how to register
         if(!text) {
             if(!user.registered) return conn.sendMessage(m.chat, {
-                text: `*📌 الـطـريـقـة:* \n${usedPrefix}register <name> <age> <country>\n\n*مـثـال:* ${usedPrefix}register Ahmed 17 Morocco`,
+                text: `*📌 الـطـريـقـة:* \n${usedPrefix}تسجيل <name> <age> <country>\n\n*مـثـال:* ${usedPrefix}تسجيل Ahmed 17 Morocco`,
                 contextInfo: newsletter
             }, { quoted: m })
 
