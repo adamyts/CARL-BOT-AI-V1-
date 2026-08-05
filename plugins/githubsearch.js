@@ -56,7 +56,7 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
     // 2. امر البحث
     if (!text) {
         return await conn.sendMessage(m.chat, {
-            text: `*📌 الـطـريـقـة:*\n${_p + 'githubsearch'} <اسـم الـمـسـتـودع>\n\n*📝 امـثـلـة:*\n• ${_p}githubsearch adam.__.98\n• ${_p}githubsearch whatsapp-bot`,
+            text: `*📌 الـطـريـقـة:*\n${_p + 'حيتهاب'} <اسـم الـمـسـتـودع>\n\n*📝 امـثـلـة:*\n• ${_p}حيتهاب adam.__.98\n• ${_p}حيتهاب whatsapp-bot`,
             contextInfo: newsletter
         }, { quoted: m })
     }
