@@ -120,7 +120,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
         return m.reply('🤖 Conversation history has been reset.');
     }
 
-    if (!text) throw `اىســل الجــواب.\n\n*مــثــل:* ${usedPrefix + command} Hello\n*Options:* ${usedPrefix + command} on | off`;
+    if (!text) throw `*الـمرجـو كـتابـة الـسـؤال الـذي تـريـده ان يـقـوم بـاجـابـة عـليـه.*\n\n*مــثــل:* ${usedPrefix + command} Hello\n*Options:* ${usedPrefix + command} on | off`;
 
     try {
         await m.reply('⏳ لحـظة واحـدة، جـاري تحـضير إجابتـك');
@@ -155,9 +155,9 @@ handler.before = async function (m, { conn }) {
     }
 };
 
-handler.help = ['ai', 'ai on', 'ai off'];
+handler.help = ['meta', 'ai on', 'ai off'];
 handler.tags = ['ai'];
-handler.command = /^(ai|دكاء)$/i;
+handler.command = /^(meta|ميتا)$/i;
 handler.limit = true;
 
 export default handler;
