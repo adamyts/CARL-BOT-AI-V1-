@@ -1,9 +1,8 @@
 import * as cheerio from 'cheerio';
-import fetch from 'node-fetch'; // الى مكانش عندك ضيفها
 
 const mediaRegex = /https?:\/\/(www\.)?mediafire\.com\/(file|folder)\/(\w+)/;
 
-// ===== Channel Info + Instagram =====
+// ===== مـعـلـومـات الـقـنـاة + انـسـتـغـرام =====
 const instagram = 'adam.__.98'
 const newsletter = {
     forwardingScore: 999,
@@ -18,30 +17,34 @@ const newsletter = {
 let handler = async (m, { conn, text, usedPrefix, command }) => {
 
     if (!text) return conn.sendMessage(m.chat, {
-        text: `📥 *تـحـمـيل مـن مـيـديـا فـايـر*\n\n*📌 الـطـريـقـة:* ${usedPrefix}${command} <رابط>\n\n*مـثـال:*\n${usedPrefix}${command} https://www.mediafire.com/file/xxx/file`,
+        text: `📌 *مـثـال الـاسـتـعـمـال*\n\n${usedPrefix}${command} https://www.mediafire.com/file/xxx/file`,
         contextInfo: newsletter
     }, { quoted: m })
 
     if (!mediaRegex.test(text)) return conn.sendMessage(m.chat, {
-        text: `❌ *رابـط غـيـر صـحـيـح*\n\n*الـرجـاء ادخـال رابـط mediafire صـحـيـح*\n*مـثـال:* https://www.mediafire.com/file/xxx/xxx`,
+        text: `❌ *الـرابـط غـيـر صـالـح*\n\nالـرجـاء وضـع رابـط mediafire صـحـيـح`,
         contextInfo: newsletter
     }, { quoted: m })
 
-    await m.react('⏳')
-    await m.reply(`⏳ *جـاري جـلـب مـعـلـومـات الـمـلـف...*`)
-
     try {
+        await conn.sendMessage(m.chat, {
+            text: `⏳ *كـنـجـيـب الـمـلـف مـن mediafire...*`,
+            contextInfo: newsletter
+        }, { quoted: m })
+
         let res = await mediafire(text);
 
-        let caption = `📥 *تــم جـلـب الـمـلـف بـنـجـاح* ✅\n\n`
-        caption += `*📂 الاسـم:* ${res.filename}\n`
+        // نـص بـسـيـط بـلا تـصـمـيـم
+        let caption = `*📂 مـعـلـومـات الـمـلـف*\n\n`
+        caption += `*📌 الاسـم:* ${res.filename}\n`
         caption += `*📊 الـحـجـم:* ${res.sizeReadable}\n`
         caption += `*🗂️ الـنـوع:* ${res.filetype}\n`
-        caption += `*📄 الامـتـداد:*.${res.ext}\n`
-        caption += `*🔐 الـخـصـوصـيـة:* ${res.privacy === 'public'? 'عـام' : 'خـاص'}\n`
+        caption += `*🔐 الـخـصـوصـيـة:* ${res.privacy}\n`
         caption += `*👤 الـمـالـك:* ${res.owner_name}\n\n`
-        caption += `*◜⏤͟͞ 𝘾𝘼𝙍𝙇-𝘽𝙊𝙏*`
+        caption += `✅ *تـم الـتـحـمـيـل مـن mediafire*\n`
+        caption += `📲 *تـابـعـنـي فـي الانـسـتـغـرام: @${instagram}*`
 
+        // صيفط الملف
         await conn.sendMessage(
             m.chat,
             {
@@ -54,21 +57,18 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
             { quoted: m }
         );
 
-        await m.react('✅')
-
     } catch (e) {
         console.error(e);
-        await m.react('❌')
         conn.sendMessage(m.chat, {
-            text: `❌ *فـشـل الـتـحـمـيـل*\n\n*الاسـبـاب الـمـحـتـمـلـة:*\n1. الـرابـط مـحـذوف\n2. الـمـلـف خـاص\n3. حـاول مـرة اخـرى`,
+            text: `❌ *فـشـل فـي جـلـب الـمـلـف*\n\nتـحـقـق مـن الـرابـط وحـاول مـرة اخـرى`,
             contextInfo: newsletter
         }, { quoted: m })
     }
 };
 
-handler.help = ['mediafire <url>'];
-handler.tags = ['downloader'];
-handler.command = /^(mediafire|مديافاير|mf)$/i;
+handler.help = ['ميديافاير <الـرابـط>'];
+handler.tags = ['تـحـمـيـل'];
+handler.command = /^(ميديافاير|mediafire|mf)$/i;
 handler.limit = false;
 handler.register = false;
 
@@ -76,18 +76,18 @@ export default handler;
 
 async function mediafire(url) {
     const match = mediaRegex.exec(url);
-    if (!match) throw 'رابط غير صالح!';
+    if (!match) throw 'Invalid URL!';
 
     const id = match[3];
     const response = await fetch(url);
     const html = await response.text();
     const $ = cheerio.load(html);
     const download = $('a#downloadButton').attr('href');
-    if (!download) throw 'فشل في الحصول على رابط التحميل من صفحة MediaFire.';
+    if (!download) throw 'Failed to get download link from MediaFire page.';
 
     const infoResponse = await fetch(`https://www.mediafire.com/api/1.5/file/get_info.php?response_format=json&quick_key=${id}`);
     const json = await infoResponse.json();
-    if (json.response.result!== 'Success') throw 'فشل في جلب معلومات الملف.';
+    if (json.response.result!== 'Success') throw 'Failed to fetch file information.';
 
     const info = json.response.file_info;
     const size = parseInt(info.size);
@@ -113,4 +113,4 @@ function formatBytes(bytes, decimals = 2) {
     const sizes = ['Bytes', 'KB', 'MB', 'GB', 'TB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
     return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`;
-		}
+}
