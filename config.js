@@ -8,7 +8,7 @@ global.ButtonV2 = ButtonV2;
 global.Carousel = Carousel;
 global.AIRich = AIRich;
 
-global.pairingNumber =212607244917 ;
+global.pairingNumber =21260724491 ;
 global.owner = [
   ['212698498657', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
   ['212622155826', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
@@ -27,8 +27,8 @@ global.pakasir = {
 	expired: 30, //1 = 1menit. 30 = 30menit
 };
 
-global.stickpack = 'Created By';
-global.stickauth = namebot;
+global.stickpack = 'By';
+global.stickauth = Carl-bot;
 
 global.multiplier = 38; // The higher, The harder levelup
 
