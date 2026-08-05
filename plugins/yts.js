@@ -51,7 +51,7 @@ let handler = async (m, { conn, text, usedPrefix: _p, command }) => {
   // هنا حيدت الزر
   if (!text) {
     return await conn.sendMessage(m.chat, { 
-        text: `📥 *الـرجـاء إدخـال اســم الـفـيـديـو وسـأقـوم بـالـبحـث لـك فــوراً*\n\n📌 *مـثـال :* \`${_p}yts alan walker\``,
+        text: `📥 *الـرجـاء إدخـال اســم الـفـيـديـو وسـأقـوم بـالـبحـث لـك فــوراً*\n\n📌 *مـثـال :* \`${_p}بحث معومات حـول عـالم البـوتـات\``,
         contextInfo: newsletter
     }, { quoted: m })
   }
