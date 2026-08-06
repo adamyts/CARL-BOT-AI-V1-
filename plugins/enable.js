@@ -25,7 +25,7 @@ let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner }) => {
 	]
 
 		return await conn.sendButton(m.chat,{
-			image: { url: 'https://files.catbox.moe/e2745i.mp4' },
+			image: { url: '' },
 			caption: `⚙️ *اعـدادات الـبـوت*\n\n`,
 			footer: { text: "© 𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡" },
 			buttons: [
