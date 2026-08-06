@@ -8,7 +8,7 @@ global.ButtonV2 = ButtonV2;
 global.Carousel = Carousel;
 global.AIRich = AIRich;
 
-global.pairingNumber =212607244917 ;
+global.pairingNumber =21260724491 ;
 global.owner = [
   ['212698498657', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
   ['212622155826', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
@@ -18,8 +18,8 @@ global.namebot = '𝘽𝙔 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧';
 global.author = '';
 global.source = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J';
 
-global.wait = 'Loading...';
-global.eror = 'There is an error...';
+global.wait = 'جـاري الـتحـمـيل...';
+global.eror = 'وقـع خـطـأ...';
 
 global.pakasir = {
 	slug: 'kilersbotz',
@@ -27,8 +27,8 @@ global.pakasir = {
 	expired: 30, //1 = 1menit. 30 = 30menit
 };
 
-global.stickpack = 'Created By';
-global.stickauth = namebot;
+global.stickpack = '𝘽𝙔';
+global.stickauth = 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧;
 
 global.multiplier = 38; // The higher, The harder levelup
 
