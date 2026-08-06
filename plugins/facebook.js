@@ -139,7 +139,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     console.error('FB Error:', e);
     await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
     await conn.sendMessage(m.chat, {
-      text: `*📥 Facebook Downloader*\n\n❌ خـطـا: ${e.message || e}`,
+      text: `*📥 تـحـميـل فـيـديـوهـات فيـسـبوك*\n\n❌ خـطـا: ${e.message || e}`,
       contextInfo: newsletter
     }, { quoted: m })
   }
