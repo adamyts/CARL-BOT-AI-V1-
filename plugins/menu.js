@@ -11,7 +11,7 @@ const newsletter = {
     }
 }
 
-const BANNER = 'https://files.catbox.moe/b0e4ra.mp4'
+const BANNER = 'https://files.catbox.moe/mfh2sj.jpeg'
 
 const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
     try {
