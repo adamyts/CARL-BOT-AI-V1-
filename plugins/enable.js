@@ -25,9 +25,9 @@ let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner }) => {
 	]
 
 		return await conn.sendButton(m.chat,{
-			image: { url: 'https://files.catbox.moe/e6ztfh' },
+			image: { url: 'https://files.catbox.moe/e2745i.mp4' },
 			caption: `⚙️ *اعـدادات الـبـوت*\n\n`,
-			footer: { text: "© 𝘾𝘼𝙍𝙇-𝘽𝙊𝙏" },
+			footer: { text: "© 𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡" },
 			buttons: [
 				{name:'single_select', buttonParamsJson:JSON.stringify({title:'✅ تـفـعـيـل', sections})},
 				{name:'single_select', buttonParamsJson:JSON.stringify({title:'❌ تـعـطـيـل', sections: sections.map(s => ({...s, rows: s.rows.map(r => ({...r, id: r.id.replace('تفعيل', 'تعطيل')}))}))})}
