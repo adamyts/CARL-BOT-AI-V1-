@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 // ===== معلومات القناة + الانستغرام =====
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const instaLink = 'https://instagram.com/adam.__.98'
 const channelLink = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J'
