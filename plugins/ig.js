@@ -12,10 +12,10 @@ const HEADERS = {
 }
 
 // ===== معلومات القناة =====
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const INSTAGRAM_URL = `https://instagram.com/adam.__.98`
-const DEVELOPER = 'adam.__.98' // زدنا هادي
+const DEVELOPER = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧' // زدنا هادي
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
@@ -30,13 +30,13 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     if (!args[0]) {
         return conn.sendMessage(m.chat, {
-            text: `*📥 Instagram Downloader*\n\n📌 *الامـر:* \`${usedPrefix + command} لـيـنـك\`\n💡 *مـثـال:* \`${usedPrefix + command} https://www.instagram.com/reel/xxx\``,
+            text: `*📥 تـحـميـل فـيـديـوهـات انـستـغرام*\n\n📌 *الامـر:* \`${usedPrefix + command} لـيـنـك\`\n💡 *مـثـال:* \`${usedPrefix + command} https://www.instagram.com/reel/xxx\``,
             contextInfo: newsletter
         }, { quoted: m })
     }
 
     await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
-    await conn.sendMessage(m.chat, { text: `*📥 Instagram Downloader*\n\n🔍 يـتـم جـلـب الـمـيـديـا... ⏳`, contextInfo: newsletter }, { quoted: m })
+    await conn.sendMessage(m.chat, { text: `*⏱️ انتــظــر ثــوانــــي*\n\n🔍 يـتـم جـلـب الـمـيـديـا... ⏳`, contextInfo: newsletter }, { quoted: m })
 
     try {
         const response = await axios.post(DOWNREELS_API, { url: args[0] }, { headers: HEADERS, timeout: 30000 });
@@ -58,7 +58,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
             let title = data.title || data.desc || 'Instagram Reel'
 
             // الكابتشن الجديد بحال ما بغيتي
-            let caption = `*📥 Instagram Downloader*
+            let caption = `*📥 تـم تـحـمـيـل بنـجـاح*
 
 *📀 الـعـنـوان :* ${title}
 *👤 مـطـور :* ${DEVELOPER}
@@ -82,7 +82,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
         } else if (data.videos.length > 1) {
             await conn.sendMessage(m.chat, {
-                text: `*📥 Instagram Downloader*\n\n📁 تـم الـعـثـور عـلـى ألـبـوم فـيـه (${data.videos.length}) مـلـفـات\nجـاري الارسـال...`,
+                text: `*⏱️ انتــظــر ثــوانــــي*\n\n📁 تـم الـعـثـور عـلـى ألـبـوم فـيـه (${data.videos.length}) مـلـفـات\nجـاري الارسـال...`,
                 contextInfo: newsletter
             }, { quoted: m })
 
@@ -113,7 +113,7 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
         console.error('Downreels Error Log:', e);
         await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
         await conn.sendMessage(m.chat, {
-            text: `*📥 Instagram Downloader*\n\n❌ خـطـا: ${e.message || e}`,
+            text: `*📥 تـحـميـل فـيـديـوهـات انـستـغرام*\n\n❌ خـطـا: ${e.message || e}`,
             contextInfo: newsletter
         }, { quoted: m })
     }
