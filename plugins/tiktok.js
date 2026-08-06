@@ -2,13 +2,13 @@ import axios from 'axios'
 
 // ===== معلومات القناة + انستغرام =====
 const channelName = ''
-const instagram = 'adam.__.98'
+const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363410733859643@newsletter',
-        newsletterName: `IG : ${instagram}`
+        newsletterName: `${instagram}`
     }
 }
 // =================================================
@@ -17,7 +17,7 @@ let handler = async (m, { conn, text, usedPrefix }) => {
 
   if (!text) {
     return conn.sendMessage(m.chat, {
-        text: `*📥 Tiktok Downloader*\n\n📌 *طـريـقـة الاسـتـعـمـال:* \`${usedPrefix}tiktok الـرابـط\`\n💡 *مـثـال:* \`${usedPrefix}tiktok https://vt.tiktok.com/xxx\``,
+        text: `*📥 تـحـميـل فـيـديـوهـات تيـكتـوك*\n\n📌 *طـريـقـة الاسـتـعـمـال:* \`${usedPrefix}تيكتوك الـرابـط\`\n💡 *مـثـال:* \`${usedPrefix}تيكتوك https://vt.tiktok.com/xxx\``,
         contextInfo: newsletter
     }, { quoted: m })
   }
