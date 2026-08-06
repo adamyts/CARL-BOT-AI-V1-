@@ -9,13 +9,13 @@ const RSS_URL = 'https://www.aljazeera.net/rss'
 let handler = async (m, { conn, args, usedPrefix }) => {
     // ===== مـعـلـومـات الـقـنـاة + انـسـتـا =====
     const channelName = 'ALJAZEERA NEWS'
-    const instagram = 'adam.__.98' // بـدل هـادي بـانـسـتـا ديـالـك
+    const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧' // بـدل هـادي بـانـسـتـا ديـالـك
     const newsletter = {
         forwardingScore: 999,
         isForwarded: true,
         forwardedNewsletterMessageInfo: {
             newsletterJid: '120363410733859643@newsletter', // << بـدل بـمـعـرف الـقـنـاة ديـالـك
-            newsletterName: `IG : ${instagram}`
+            newsletterName: `${instagram}`
         }
     }
     // ======================================
