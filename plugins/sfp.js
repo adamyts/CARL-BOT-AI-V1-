@@ -2,7 +2,7 @@ import fs from 'fs';
 import syntaxError from 'syntax-error';
 
 // ===== معلومات القناة =====
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const CHANNEL_ID = '120363410733859643@newsletter'
 
 const newsletter = {
