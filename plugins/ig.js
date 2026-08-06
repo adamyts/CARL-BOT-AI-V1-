@@ -15,7 +15,7 @@ const HEADERS = {
 const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const INSTAGRAM_URL = `https://instagram.com/adam.__.98`
-const DEVELOPER = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧' // زدنا هادي
+const DEVELOPER = '*adam.__.98*' // زدنا هادي
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
