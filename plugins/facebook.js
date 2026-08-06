@@ -5,10 +5,10 @@ Scrape Source: https://whatsapp.com/channel/0029VbBJKfE0gcfCAJZEVh3R/125
 import axios from "axios";
 
 // ===== معلومات القناة =====
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const INSTAGRAM_URL = `https://instagram.com/adam.__.98`
-const DEVELOPER = '*adam.__.98*'
+const DEVELOPER = '*adam.___.98*'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
