@@ -26,10 +26,10 @@ let handler = async (m, { conn, args, usedPrefix: _p }) => {
     // إلا كتب.الطقس بوحدها → طلع رسالة الشرح بلا قائمة
     let caption = `🌤️ *الـطـقـس فـي الـمـغـرب* 🌤️\n\n`
     caption += `*اخـتـر الـمـديـنـة لـمـعـرفـة الـطـقـس*\n\n`
-    caption += `*مـثـل*\n\`${_p}الـطـقـس casablanca\`\n`
-    caption += `\`${_p}الـطـقـس agadir\`\n`
-    caption += `\`${_p}الـطـقـس rabat\`\n\n`
-    caption += `By adam.__.98`
+    caption += `*مـثـل*\n\`${_p}حالة_الطقس casablanca\`\n`
+    caption += `\`${_p}حالة_الطقس agadir\`\n`
+    caption += `\`${_p}حالة_الطقس rabat\`\n\n`
+    caption += `𝘽𝙔 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧`
 
     await conn.sendMessage(m.chat, {
         text: caption,
