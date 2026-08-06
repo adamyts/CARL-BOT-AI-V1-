@@ -7,9 +7,9 @@ import crypto from "crypto";
 import FormData from "form-data";
 
 // ===== Channel Info + Instagram =====
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const CHANNEL_ID = '120363410733859643@newsletter' // <-- معرف قناة daily
-const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const instagram = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
