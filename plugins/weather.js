@@ -2,14 +2,14 @@ import moment from 'moment-timezone'
 
 // ===== Channel Info + Instagram =====
 const channelName = 'WEATHER MA'
-const instagram = 'adam.__.98'
+const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: CHANNEL_ID,
-        newsletterName: `IG : ${instagram}`
+        newsletterName: `${instagram}`
     }
 }
 const instaLink = `https://instagram.com/${instagram}`
