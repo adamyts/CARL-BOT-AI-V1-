@@ -4,14 +4,14 @@
 import { performance } from 'perf_hooks'
 
 // ===== مـعـلـومـات الـقـنـاة + انـسـتـا =====
-const instagram = 'adam.__.98'
+const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletterJid = '120363410733859643@newsletter' // حـط الـمـعـرف ديـال الـقـنـاة ديـالـك هـنـا
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: newsletterJid,
-        newsletterName: `IG : ${instagram}`
+        newsletterName: `${instagram}`
     }
 }
 // =================================================
