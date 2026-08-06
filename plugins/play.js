@@ -4,7 +4,7 @@
 const handler = async (m, { text, conn }) => {
     try {
         // ===== مـعـلـومـات الـقـنـاة =====
-        const channelName = 'GI : adam.__.89'
+        const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
         const newsletter = {
             forwardingScore: 999,
             isForwarded: true,
