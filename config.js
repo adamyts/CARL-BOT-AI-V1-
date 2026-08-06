@@ -28,7 +28,7 @@ global.pakasir = {
 };
 
 global.stickpack = '𝘽𝙔';
-global.stickauth = 𝘾𝘼𝙍𝙇𝘽𝙊𝗧;
+global.stickauth = Carlbot;
 
 global.multiplier = 38; // The higher, The harder levelup
 
