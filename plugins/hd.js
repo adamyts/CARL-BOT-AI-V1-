@@ -2,7 +2,7 @@
 //بـلـوغـيـن: Izuku-mi | تـحـسـيـن جـودة الـصـورة HD
 
 // ===== مـعـلـومـات الـقـنـاة =====
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const channelJid = '120363410733859643@newsletter' // حـط مـعـرف الـقـنـاة ديـالـك هـنـا
 
 const newsletter = {
