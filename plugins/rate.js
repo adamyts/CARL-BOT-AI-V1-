@@ -65,7 +65,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.sendButton(m.chat, {
         image: { url: IMG_URL },
         caption: `*🎉 تــقــيــيــم الــبــوت 🎉*\n\nكـيـف كـانـت تـجـربـتـك مـع الـبـوت؟\n\n*اخــتــر مــن 1⭐ إلــى 6⭐*`,
-        footer: { text: 'CARL-BOT' },
+        footer: { text: '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏' },
         buttons: [
             { name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '⭐', id: `${usedPrefix}rate 1`}) },
             { name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '⭐⭐', id: `${usedPrefix}rate 2`}) },
