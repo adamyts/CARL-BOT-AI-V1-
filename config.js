@@ -27,8 +27,8 @@ global.pakasir = {
 	expired: 30, //1 = 1menit. 30 = 30menit
 };
 
-global.stickpack = '𝘽𝙔';
-global.stickauth = Carlbot;
+global.stickpack = 'by';
+global.stickauth = carlbot;
 
 global.multiplier = 38; // The higher, The harder levelup
 
