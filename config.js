@@ -18,8 +18,8 @@ global.namebot = '𝘽𝙔 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧';
 global.author = '';
 global.source = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J';
 
-global.wait = 'جـاري الـتحـمـيل...';
-global.eror = 'وقـع خـطـأ...';
+global.wait = 'Loading...';
+global.eror = 'There is an error...';
 
 global.pakasir = {
 	slug: 'kilersbotz',
@@ -27,8 +27,8 @@ global.pakasir = {
 	expired: 30, //1 = 1menit. 30 = 30menit
 };
 
-global.stickpack = 'by';
-global.stickauth = carlbot;
+global.stickpack = 'Created By';
+global.stickauth = namebot;
 
 global.multiplier = 38; // The higher, The harder levelup
 
@@ -84,4 +84,3 @@ watchFile(file, () => {
 	console.log(chalk.redBright("Update 'config.js'"));
 	import(`${file}?update=${Date.now()}`);
 });
-			
