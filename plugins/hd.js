@@ -2,7 +2,7 @@
 //بـلـوغـيـن: Izuku-mi | تـحـسـيـن جـودة الـصـورة HD
 
 // ===== مـعـلـومـات الـقـنـاة =====
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const channelJid = '120363410733859643@newsletter' // حـط مـعـرف الـقـنـاة ديـالـك هـنـا
 
 const newsletter = {
