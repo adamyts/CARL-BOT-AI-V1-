@@ -91,6 +91,6 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
 handler.help = ['apk <اسم>']
 handler.tags = ['downloader']
-handler.command = ['apk', 'apkdownload']
+handler.command = ['apk', 'تطبيق']
 handler.limit = true
 export default handler
