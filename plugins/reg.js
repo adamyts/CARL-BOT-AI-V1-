@@ -3,7 +3,7 @@
 // تـعـديـل : نـورديـن
 
 // ─── Channel Info Only ─────────────────────────────────────────────
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
