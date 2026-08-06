@@ -1,7 +1,7 @@
 import axios from 'axios'
 
-// ===== Channel Info + Instagram =====
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+// ===== معلومات القناة =====
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const instaLink = 'https://instagram.com/adam.__.98'
 const channelLink = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J'
@@ -18,29 +18,32 @@ const newsletter = {
 
 let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
 
-    // 1. امر githubinfo باش يجيب التفاصيل
-    if(command === 'githubinfo'){
-        if(!text) return m.reply('ارسل رابط المستودع')
+    // 1. امر githubinfo / جيتهاب_معلومات
+    if(command === 'githubinfo' || command === 'جيتهاب_معلومات'){
+        if(!text) return m.reply(`📌 *الـطـريـقـة:*\n${_p}githubinfo owner/repo\n${_p}جيتهاب_معلومات owner/repo`)
         let [owner, repo] = text.replace('https://github.com/', '').split('/')
-        if(!owner ||!repo) return m.reply('الرابط خطأ')
+        if(!owner ||!repo) return m.reply('❌ *الـرابـط خـطـأ*\n📌 *مـثـال صـحـيـح:* owner/repo')
 
-        await conn.sendMessage(m.chat, { text: '⏳*جـاري جـلـب مـعـلـومـات الـمـسـتـودع...*', contextInfo: newsletter }, { quoted: m })
+        await conn.sendMessage(m.chat, { text: '⏳ *جـاري جـلـب مـعـلـومـات الـمـسـتـودع...*', contextInfo: newsletter }, { quoted: m })
 
         try{
             let { data } = await axios.get(`https://api.github.com/repos/${owner}/${repo}`)
 
-            let caption = `📦 *${data.full_name}*\n\n`
-            caption += `📝 *الـوصـف:* ${data.description || 'لا يوجد'}\n`
-            caption += `👤 *الـمـلـك:* ${data.owner.login}\n`
-            caption += `📅 *تـاريـخ الانـشـاء:* ${formatDate(data.created_at)}\n`
-            caption += `🔄 *اخـر تـحـديـث:* ${formatDate(data.updated_at)}\n`
-            caption += `⭐ *الـنـجـوم:* ${data.stargazers_count.toLocaleString()}\n`
-            caption += `🍴 *الـفـورك:* ${data.forks.toLocaleString()}\n`
-            caption += `🐛 *المشاكل:* ${data.open_issues}\n`
-            caption += `🔗 *الـرابـط:* ${data.html_url}`
+            let caption = `╮──〔 📦 مـعـلـومـات الـمـسـتـودع 〕──╭
+│📦 *الاسـم:* ${data.full_name}
+│📝 *الـوصـف:* ${data.description || 'لا يـوجـد'}
+│👤 *الـمـالـك:* ${data.owner.login}
+│📅 *تـاريـخ الانـشـاء:* ${formatDate(data.created_at)}
+│🔄 *اخـر تـحـديـث:* ${formatDate(data.updated_at)}
+│⭐ *الـنـجـوم:* ${data.stargazers_count.toLocaleString()}
+│🍴 *الـفـورك:* ${data.forks.toLocaleString()}
+│🐛 *الـمـشـاكـل:* ${data.open_issues}
+│🔗 *الـرابـط:* ${data.html_url}
+╯────────────────╰
+> ${channelName}`
 
             return await conn.sendButton(m.chat, {
-                image: { url: data.owner.avatar_url }, // صورة الحساب
+                image: { url: data.owner.avatar_url },
                 caption: caption,
                 buttons: [
                     {name: 'cta_url', buttonParamsJson: JSON.stringify({display_text: '📦 فـتـح الـمـسـتـودع', url: data.html_url})},
@@ -49,21 +52,29 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
                 contextInfo: newsletter
             }, { quoted: m })
         }catch(e){
-            return m.reply(`❌ خطأ: المستودع غير موجود`)
+            return m.reply(`❌ *خـطـأ:* الـمـسـتـودع غـيـر مـوجـود`)
         }
     }
 
-    // 2. امر البحث
+    // 2. امر البحث githubsearch / جيتهاب
     if (!text) {
         return await conn.sendMessage(m.chat, {
-            text: `*📌 الـطـريـقـة:*\n${_p + 'جيتهاب'} <اسـم الـمـسـتـودع>\n\n*📝 امـثـلـة:*\n• ${_p}جيتهاب adam.__.98\n• ${_p}جيتهاب whatsapp-bot`,
+            text: `╮──〔 🔍 جـيـتـهـاب سـيـرش 〕──╭
+│📌 *الـطـريـقـة:*
+│${_p}githubsearch <اسـم الـمـسـتـودع>
+│${_p}جيتهاب <اسـم الـمـسـتـودع>
+│
+│📝 *امـثـلـة:*
+│• ${_p}githubsearch adam.__.98
+│• ${_p}جيتهاب whatsapp-bot
+╯────────────────╰`,
             contextInfo: newsletter
         }, { quoted: m })
     }
 
     await m.react('⏳')
     await conn.sendMessage(m.chat, {
-        text: `*🔍 كـانـقـلـب فـي جـيـت هـاب عـلـى:* \`${text}\`\n`,
+        text: `*🔍 كـانـقـلـب فـي جـيـتـهـاب عـلـى:* \`${text}\``,
         contextInfo: newsletter
     }, { quoted: m })
 
@@ -82,9 +93,13 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
 
         if (!json.items.length) return await conn.sendMessage(m.chat, { text: `*😕 مـالـقـيـت والـو عـلـى* \`${text}\``, contextInfo: newsletter }, { quoted: m })
 
-        let thumbnail = json.items[0].owner.avatar_url // المشكل 1: خذينا صورة اول حساب
+        let thumbnail = json.items[0].owner.avatar_url
 
-        let caption = `🔍 *نـتـائـج الـبـحـث عـلـى:* ${text}\n📊 *عـدد الـنـتـائـج:* ${json.items.length}\n\n*BY adam.__.98*`
+        let caption = `╮──〔 🔍 نـتـائـج الـبـحـث 〕──╭
+│🔍 *الـبـحـث:* ${text}
+│📊 *عـدد الـنـتـائـج:* ${json.items.length}
+╯────────────────╰
+> ${channelName}`
 
         let sections = [
           {
@@ -92,7 +107,7 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
             rows: json.items.map((repo, i) => ({
               title: `${i+1}. ${repo.full_name.substring(0, 60)}`,
               description: `⭐ ${repo.stargazers_count} | 🍴 ${repo.forks}`,
-              id: `${_p}githubinfo ${repo.full_name}` // المشكل 2: صلحنا هنا درنا owner/repo ماشي الرابط كامل
+              id: `${_p}githubinfo ${repo.full_name}`
             }))
           }
         ]
@@ -104,7 +119,7 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
                 {
                     name: 'single_select',
                     buttonParamsJson: JSON.stringify({
-                        title: '⬇️ اضـــغـــط هــنــا',
+                        title: '⬇️ اضـــغـــط هــنــا لـلاخـتـيـار',
                         sections: sections
                     }),
                 },
@@ -134,10 +149,11 @@ let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
     }
 }
 
-handler.help = ['githubsearch <query>', 'جيتهاب <owner/repo>']
+handler.help = ['githubsearch <query>', 'githubinfo <owner/repo>', 'جيتهاب <query>', 'جيتهاب_معلومات <owner/repo>']
 handler.tags = ['search']
-handler.command = /^githubsearch$|^جيتهاب$/i
+handler.command = /^githubsearch$|^githubinfo$|^جيتهاب$|^جيتهاب_معلومات$/i
 handler.limit = false
+handler.name = 'جيتهاب 
 export default handler
 
 function formatDate(n, locale = 'ar-MA') {
