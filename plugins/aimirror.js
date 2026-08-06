@@ -7,9 +7,9 @@ import crypto from "crypto";
 import FormData from "form-data";
 
 // ===== Channel Info + Instagram =====
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter' // <-- معرف قناة daily
-const instagram = 'adam.__.98'
+const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
