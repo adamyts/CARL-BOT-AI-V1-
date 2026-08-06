@@ -1,6 +1,6 @@
 import moment from 'moment-timezone'
 
-const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧 🐢'
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,
@@ -11,7 +11,7 @@ const newsletter = {
     }
 }
 
-const BANNER = 'https://files.catbox.moe/72tt1c.jpg'
+const BANNER = 'https://files.catbox.moe/b0e4ra.mp4'
 
 const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
     try {
