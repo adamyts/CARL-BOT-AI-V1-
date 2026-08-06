@@ -4,7 +4,7 @@
 const handler = async (m, { text, conn }) => {
     try {
         // ===== مـعـلـومـات الـقـنـاة =====
-        const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+        const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
         const newsletter = {
             forwardingScore: 999,
             isForwarded: true,
@@ -15,7 +15,7 @@ const handler = async (m, { text, conn }) => {
         }
         // ========================
 
-        if (!text) return m.reply("📥*الـرجـاء إدخـال اســم الأغـنـية وسـأقـوم بـتحـمله لـك فــوراً*\n\n*📌 `مـثـال :* `.تحميل_اغنية سـورة الـبقـرة `", m.chat, { contextInfo: newsletter })
+        if (!text) return m.reply("📥*الـرجـاء إدخـال اســم الأغـنـية وسـأقـوم بـتحـمله لـك فــوراً*\n\n*📌 `مـثـال :* `.تحميل_اغنية سـورة الـبقـرة", m.chat, { contextInfo: newsletter })
 
         await m.react('🔍')
 
