@@ -5,10 +5,10 @@ Scrape Source: https://whatsapp.com/channel/0029VbBJKfE0gcfCAJZEVh3R/125
 import axios from "axios";
 
 // ===== معلومات القناة =====
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const INSTAGRAM_URL = `https://instagram.com/adam.__.98`
-const DEVELOPER = 'adam.__.98'
+const DEVELOPER = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
@@ -86,12 +86,12 @@ async function fbDownloader(fbUrl) {
 let handler = async (m, { conn, text, usedPrefix, command }) => {
   if (!text)
     return conn.sendMessage(m.chat, {
-      text: `*📥 Facebook Downloader*\n\n📌 *الامـر:* \`${usedPrefix + command} لـيـنـك\`\n💡 *مـثـال:* \`${usedPrefix + command} https://facebook.com/watch?v=xxx\``,
+      text: `*📥 تـحـميـل فـيـديـوهـات فيـسبـوك*\n\n📌 *الامـر:* \`${usedPrefix + command} لـيـنـك\`\n💡 *مـثـال:* \`${usedPrefix + command} https://facebook.com/watch?v=xxx\``,
       contextInfo: newsletter
     }, { quoted: m })
 
   await conn.sendMessage(m.chat, { react: { text: '⏳', key: m.key } });
-  await conn.sendMessage(m.chat, { text: `*📥 Facebook Downloader*\n\n🔍 يـتـم جـلـب الـمـيـديـا... ⏳`, contextInfo: newsletter }, { quoted: m })
+  await conn.sendMessage(m.chat, { text: `*⏱️ انتــظــر ثــوانــــي*\n\n🔍 يـتـم جـلـب الـمـيـديـا... ⏳`, contextInfo: newsletter }, { quoted: m })
 
   try {
     const results = await fbDownloader(text);
@@ -109,7 +109,7 @@ let handler = async (m, { conn, text, usedPrefix, command }) => {
     await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
     // نفس الكابتشن ديال ig
-    let caption = `*📥 Facebook Downloader*
+    let caption = `*📥 تـم تـحمـيل بـنـجـاح*
 
 *📀 الـعـنـوان :* Facebook Video
 *👤 مـطـور :* ${DEVELOPER}
