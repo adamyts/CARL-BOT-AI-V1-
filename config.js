@@ -8,13 +8,13 @@ global.ButtonV2 = ButtonV2;
 global.Carousel = Carousel;
 global.AIRich = AIRich;
 
-global.pairingNumber =21270076898 ;
+global.pairingNumber =212700768989 ;
 global.owner = [
   ['212698498657', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
   ['212622155826', '𝙖𝙙𝙖𝙢.__.𝟗𝟖', true],
 ];
 
-global.namebot = '𝘽𝙔 𝘾𝘼𝙍𝙇-𝘽𝙊𝗧';
+global.namebot = '𝘽𝙔 𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏';
 global.author = '';
 global.source = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J';
 
