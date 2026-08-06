@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // ===== معلومات القناة + انستغرام =====
 const channelName = ''
-const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const instagram = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
