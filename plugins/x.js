@@ -5,14 +5,14 @@ import axios from "axios";
 import * as cheerio from "cheerio";
 
 // ===== مـعـلـومـات الـقـنـاة + انـسـتـا =====
-const channelName = ''
-const instagram = 'adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
+const instagram = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const newsletter = {
     forwardingScore: 999,
     isForwarded: true,
     forwardedNewsletterMessageInfo: {
         newsletterJid: '120363410733859643@newsletter',
-        newsletterName: `IG : ${instagram}`
+        newsletterName: `${instagram}`
     }
 }
 // =====================================
