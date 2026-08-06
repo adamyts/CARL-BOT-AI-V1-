@@ -4,7 +4,7 @@
 // ============================================
 
 // ─── Channel Info ─────────────────────────────────────────────
-const channelName = 'GI : adam.__.98'
+const channelName = '𝘾𝘼𝙍𝙇-𝘽𝙊𝗧'
 const CHANNEL_ID = '120363410733859643@newsletter'
 const newsletter = {
     forwardingScore: 999,
