@@ -93,37 +93,6 @@ const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
 │👑 *${_p}رسـالـة_الـمـغـادرة*
 ╯────────────────╰
 
-╮──〔 🚨 قــســم الابــلاغ 〕──╭
-│🚨 *${_p}ابـلاغ*
-╯────────────────╰
-
-╮──〔 📰 قــســم الاخــبـار 〕──╭
-│📰 *${_p}اخـبـار_الـجـزيـرة*
-│📰 *${_p}اخـبـار_الـمـغـرب*
-╯────────────────╰
-
-╮──〔 🌤️ قــســم الـطــقــس 〕──╭
-│🌤️ *${_p}حـالـة_الـطـقـس*
-╯────────────────╰
-
-╮──〔 🌙 قــســم الـديـنـي 〕──╭
-│🌙 *${_p}اوقـات_الـصـلاة*
-│🌙 *${_p}صـوت_الـقـرآن*
-╯────────────────╰
-
-╮──〔 🎯 قــســم الـتـرفـيـه 〕──╭
-│🎯 *${_p}لـعـبـة_قـمـار*
-╯────────────────╰
-
-╮──〔 📦 قــســم الـتـنـصـيـب 〕──╭
-│📦 *${_p}تـنـصـيـب*
-╯────────────────╰
-
-╮──〔 ⚡ قــســم الأدوات 〕──╭
-│⚡ *${_p}فـحـص*
-│⚡ *${_p}رفـع*
-╯────────────────╰
-
 > 𝘽𝙔 𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 🫠`,
 
             التحميل: `╮──〔 📥 الـتـحـمـيـل 〕──╭\n│📥 *${_p}يـوتـيـوب_فـيـديـو*\n│📥 *${_p}يـوتـيـوب_مـوسـيـقـى*\n│📥 *${_p}تـيـكـتـوك*\n│📥 *${_p}فـيـسـبـوك*\n│📥 *${_p}اسـتـغـرام*\n│📥 *${_p}مـيـديـافـايـر*\n│📥 *${_p}تـويـتـر*\n│📥 *${_p}تـحـمـيـل_اغـنـيـة*\n│📥 *${_p}تـطـبـيـق*\n│📥 *${_p}تـحـمـيـل*\n╯────────────────╰`,
@@ -147,14 +116,12 @@ const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
                 let part1 = fullText.slice(0, 4000)
                 let part2 = fullText.slice(4000)
 
-                // 1. الصورة + اول جزء
                 await conn.sendMessage(m.chat, {
                     image: { url: BANNER },
                     caption: part1,
                     contextInfo: newsletter
                 }, {quoted: m})
 
-                // 2. نشيكو واش باقي شي حاجة
                 if(part2 && part2.trim().length > 0){
                     await new Promise(resolve => setTimeout(resolve, 700))
                     await conn.sendMessage(m.chat, {
@@ -169,10 +136,11 @@ const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
             return await conn.sendButton(m.chat, {
                 image: { url: BANNER },
                 caption: caption,
-                footer: `◜⏤͟͞ 𝘾𝘼𝙍𝙇-𝘽𝙊ﺕ 2026 | الـمـطـور : adam.__.98`,
+                footer: { text: `𝗕𝘆 𝗮𝗱𝗮𝗺.___.𝟵𝟴` }, // ✅ صلحنا هنا
                 buttons: [
                     {name: 'quick_reply', buttonParamsJson: JSON.stringify({display_text: '🏠 الـرجـوع', id: _p + 'الأوامر'})}
                 ],
+                headerType: 4, // ✅ ضروري مع الصورة
                 contextInfo: newsletter
             }, {quoted: m, mentions: [m.sender]})
         }
@@ -217,12 +185,13 @@ const handler = async (m, { conn, usedPrefix: _p, args, command }) => {
         await conn.sendButton(m.chat, {
             image: { url: BANNER },
             caption: caption,
-            footer: `الـمـطـور : adam.__.98`,
+            footer: { text: `𝗢𝘄𝗻𝗲𝗿: 𝗮𝗱𝗮𝗺.___.𝟵𝟴` }, // ✅ صلحنا هنا ثاني
             buttons: [
                 { name: 'single_select', buttonParamsJson: JSON.stringify({ title: '🗂️ الأقــســام الرئــيـســية', sections: sections }) },
                 { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '⭐ تـقـيـيـم الـبـوت', id: _p + 'rate' }) },
-                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: 'قـنـاتــي وتـسـاب 📌', url: channelLink }) }
+                { name: 'cta_url', buttonParamsJson: JSON.stringify({ display_text: '🎉 قـنـاتــي وتـسـاب', url: channelLink }) }
             ],
+            headerType: 4, // ✅ ضروري مع الصورة
             contextInfo: newsletter
         }, { quoted: m, mentions: [m.sender] })
 
