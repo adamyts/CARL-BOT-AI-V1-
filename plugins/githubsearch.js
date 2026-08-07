@@ -1,166 +1,129 @@
-import axios from 'axios'
+import axios from 'axios';
 
-// ===== معلومات القناة =====
-const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
-const CHANNEL_ID = '120363410733859643@newsletter'
-const instaLink = 'https://instagram.com/adam.__.98'
-const channelLink = 'https://whatsapp.com/channel/0029VbCxraN7T8bbAyc2j31J'
+const regex = /(?:https|git)(?::\/\/|@)github\.com[\/:]([^\/:]+)\/(.+)/i;
+const IMG_GITHUB = 'https://files.catbox.moe/00p88l.png'
 
 const newsletter = {
   forwardingScore: 999,
   isForwarded: true,
   forwardedNewsletterMessageInfo: {
-    newsletterJid: CHANNEL_ID,
-    newsletterName: channelName
+    newsletterJid: '120363410733859643@newsletter',
+    newsletterName: '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡'
   }
 }
-// ========================
 
-let handler = async (m, { conn, text, command, usedPrefix: _p }) => {
+// البحث في GitHub
+const searchGitHub = async (m, { conn, text, usedPrefix, command }) => {
+  if (!text) return conn.sendMessage(m.chat, {
+    image: { url: IMG_GITHUB },
+    caption: `🚨 يـرجـى إدخـال اسـم المـشـروع\n🔍 مـثــال:\n ${usedPrefix + command} WhatsApp-Bot`,
+    contextInfo: newsletter
+  }, { quoted: m });
 
-    // 1. امر githubinfo / جيتهاب_معلومات
-    if(command === 'githubinfo' || command === 'جيتهاب_معلومات'){
-        if(!text) return m.reply(`📌 *الـطـريـقـة:*\n${_p}githubinfo owner/repo\n${_p}جيتهاب_معلومات owner/repo`)
-        let [owner, repo] = text.replace('https://github.com/', '').split('/')
-        if(!owner ||!repo) return m.reply('❌ *الـرابـط خـطـأ*\n📌 *مـثـال صـحـيـح:* owner/repo')
+  await conn.sendMessage(m.chat, { react: { text: '⌛', key: m.key } });
 
-        await conn.sendMessage(m.chat, { text: '⏳ *جـاري جـلـب مـعـلـومـات الـمـسـتـودع...*', contextInfo: newsletter }, { quoted: m })
+  try {
+    const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(text)}&per_page=10`;
+    const { data } = await axios.get(url);
 
-        try{
-            let { data } = await axios.get(`https://api.github.com/repos/${owner}/${repo}`)
+    if (!data.items.length) throw new Error("❌ لـم يتـم العثور على أي مـستـودع مـطابـق!");
 
-            let caption = `╮──〔 📦 مـعـلـومـات الـمـسـتـودع 〕──╭
-│📦 *الاسـم:* ${data.full_name}
-│📝 *الـوصـف:* ${data.description || 'لا يـوجـد'}
-│👤 *الـمـالـك:* ${data.owner.login}
-│📅 *تـاريـخ الانـشـاء:* ${formatDate(data.created_at)}
-│🔄 *اخـر تـحـديـث:* ${formatDate(data.updated_at)}
-│⭐ *الـنـجـوم:* ${data.stargazers_count.toLocaleString()}
-│🍴 *الـفـورك:* ${data.forks.toLocaleString()}
-│🐛 *الـمـشـاكـل:* ${data.open_issues}
-│🔗 *الـرابـط:* ${data.html_url}
-╯────────────────╰
-> ${channelName}`
+    let rows = data.items.slice(0, 10).map((repo) => ({
+      title: `📂 ${repo.name}`,
+      description: `⭐ ${repo.stargazers_count} | 🍴 ${repo.forks_count}`,
+      id: `${usedPrefix}info ${repo.html_url}` // بدلنا تحميل ب info
+    }));
 
-            return await conn.sendButton(m.chat, {
-                image: { url: data.owner.avatar_url },
-                caption: caption,
-                buttons: [
-                    {name: 'cta_url', buttonParamsJson: JSON.stringify({display_text: '📦 فـتـح الـمـسـتـودع', url: data.html_url})},
-                    {name: 'cta_url', buttonParamsJson: JSON.stringify({display_text: '📢 قــنــاة الـواتــســاب', url: channelLink})},
-                ],
-                contextInfo: newsletter
-            }, { quoted: m })
-        }catch(e){
-            return m.reply(`❌ *خـطـأ:* الـمـسـتـودع غـيـر مـوجـود`)
-        }
-    }
+    let sections = [{ title: "📜 نــتائــج الـبــحث", rows: rows }]
 
-    // 2. امر البحث githubsearch / جيتهاب
-    if (!text) {
-        return await conn.sendMessage(m.chat, {
-            text: `╮──〔 🔍 جـيـتـهـاب سـيـرش 〕──╭
-│📌 *الـطـريـقـة:*
-│${_p}githubsearch <اسـم الـمـسـتـودع>
-│${_p}جيتهاب <اسـم الـمـسـتـودع>
-│
-│📝 *امـثـلـة:*
-│• ${_p}githubsearch adam.__.98
-│• ${_p}جيتهاب whatsapp-bot
-╯────────────────╰`,
-            contextInfo: newsletter
-        }, { quoted: m })
-    }
-
-    await m.react('⏳')
-    await conn.sendMessage(m.chat, {
-        text: `*🔍 كـانـقـلـب فـي جـيـتـهـاب عـلـى:* \`${text}\``,
+    await conn.sendButton(m.chat, {
+        image: { url: IMG_GITHUB },
+        caption: `🔎 تــم الـعـثـور عـلـى ${data.items.length} مـســتودع\n> اخــتر المــســـتودع لـعــرض الـمعلـومـات`,
+        footer: { text: `🚀 GitHub Search` },
+        buttons: [{
+            name: 'single_select',
+            buttonParamsJson: JSON.stringify({ title: '⬇️ اضــغــط هـنا للاخـتـيار', sections: sections }),
+        }],
+        headerType: 4,
         contextInfo: newsletter
-    }, { quoted: m })
+    }, { quoted: m });
 
-    try {
-        const url = `https://api.github.com/search/repositories?q=${encodeURIComponent(text)}&per_page=5`
+    await conn.sendMessage(m.chat, { react: { text: '✅', key: m.key } });
 
-        let res = await fetch(url, {
-            headers: {
-                'User-Agent': 'WhatsApp-Bot',
-                'Accept': 'application/vnd.github.v3+json'
-            }
-        })
+  } catch (error) {
+    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+    conn.sendMessage(m.chat, {
+      image: { url: IMG_GITHUB },
+      caption: `❌ حدث خطأ: ${error.message}`,
+      contextInfo: newsletter
+    }, { quoted: m });
+  }
+};
 
-        let json = await res.json()
-        if (res.status!== 200) return await conn.sendMessage(m.chat, { text: `*❌ خـطـأ:* ${json.message || 'فـشـل الـبـحـث'}`, contextInfo: newsletter }, { quoted: m })
+// عرض معلومات المستودع + الصورة + الرابط
+const getRepoInfo = async (m, { conn, args, usedPrefix, command }) => {
+  if (!args[0]) return conn.reply(m.chat, `🚨 مثال: ${usedPrefix}info https://github.com/user/repo`, m);
 
-        if (!json.items.length) return await conn.sendMessage(m.chat, { text: `*😕 مـالـقـيـت والـو عـلـى* \`${text}\``, contextInfo: newsletter }, { quoted: m })
+  if (!regex.test(args[0])) return conn.reply(m.chat, "⚠️ الرابط غير صحيح!", m);
 
-        let thumbnail = json.items[0].owner.avatar_url
+  let [_, user, repo] = args[0].match(regex) || [];
+  repo = repo.replace(/.git$/, '');
+  let repoUrl = `https://github.com/${user}/${repo}`
+  let imgUrl = `https://opengraph.githubassets.com/1/${user}/${repo}` // صورة الكارد ديال جيتهاب
 
-        let caption = `╮──〔 🔍 نـتـائـج الـبـحـث 〕──╭
-│🔍 *الـبـحـث:* ${text}
-│📊 *عـدد الـنـتـائـج:* ${json.items.length}
-╯────────────────╰
-> ${channelName}`
+  try {
+    await conn.sendMessage(m.chat, { react: { text: '🔍', key: m.key } });
 
-        let sections = [
-          {
-            title: "📦 اخـتـر مـسـتـودع لـعـرض الـتـفـاصـيـل",
-            rows: json.items.map((repo, i) => ({
-              title: `${i+1}. ${repo.full_name.substring(0, 60)}`,
-              description: `⭐ ${repo.stargazers_count} | 🍴 ${repo.forks}`,
-              id: `${_p}githubinfo ${repo.full_name}`
-            }))
-          }
-        ]
+    // نجيبو معلومات اضافية
+    const { data } = await axios.get(`https://api.github.com/repos/${user}/${repo}`);
 
-        await conn.sendButton(m.chat, {
-            image: { url: thumbnail },
-            caption: caption,
-            buttons: [
-                {
-                    name: 'single_select',
-                    buttonParamsJson: JSON.stringify({
-                        title: '⬇️ اضـــغـــط هــنــا لـلاخـتـيـار',
-                        sections: sections
-                    }),
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: '📢 قــنــاة الـواتــســاب',
-                        url: channelLink
-                    }),
-                },
-                {
-                    name: 'cta_url',
-                    buttonParamsJson: JSON.stringify({
-                        display_text: '📸 حـسابــي انـسـتـغـرام',
-                        url: instaLink
-                    }),
-                },
-            ],
-            contextInfo: newsletter
-        }, { quoted: m, mentions: [m.sender] })
+    let caption = `⭐ اســم ${data.name}\n\n`
+    caption += `📝 الـوصـف: ${data.description || 'لا يــوجد وصـف'}\n`
+    caption += `👤 المـطـور: ${data.owner.login}\n`
+    caption += `⭐ النـجـوم: ${data.stargazers_count}\n`
+    caption += `🍴 الـفـروع: ${data.forks_count}\n`
+    caption += `👀 المـشـاهدات: ${data.watchers_count}\n`
+    caption += `💻 اـللغـة: ${data.language || 'غير محدد'}\n`
+    caption += `📅 اخـر تـحديـث: ${new Date(data.updated_at).toLocaleDateString('ar')}\n\n`
+    caption += `🔗 الـرابـط: ${repoUrl}`
 
-        await m.react('✅')
+    await conn.sendMessage(m.chat, {
+      image: { url: imgUrl }, // صورة المشروع من جيتهاب
+      caption: caption,
+      footer: { text: `🚀 GitHub Info` },
+      contextInfo: newsletter
+    }, { quoted: m });
 
-    } catch (e) {
-        console.error(e)
-        return await conn.sendMessage(m.chat, { text: `*❌ فـشـل الـبـحـث:* ${e.message || e}`, contextInfo: newsletter }, { quoted: m })
+    await conn.sendMessage(m.chat, { react: { text: '✔️', key: m.key } });
+
+  } catch (error) {
+    await conn.sendMessage(m.chat, { react: { text: '❌', key: m.key } });
+    conn.reply(m.chat, `❌ فـشل جـلب المـعلومـات: ${error.message}`, m);
+  }
+};
+
+// الامر الرئيسي
+const handler = async (m, context) => {
+  const { usedPrefix, command } = context;
+  if (command === 'جيتهاب') return searchGitHub(m, context);
+  if (command === 'info') return getRepoInfo(m, context); // بدلنا تحميل
+};
+
+// باش يلتقط الضغط على الزر
+handler.before = async (m, { conn, usedPrefix }) => {
+    if (m.isBaileys || m.fromMe) return
+    let selectedId = m.selectedId
+    if (!selectedId) return
+
+    if (selectedId.startsWith(`${usedPrefix}info`)) {
+        let args = selectedId.split(' ').slice(1)
+        await getRepoInfo(m, { conn, args, usedPrefix, command: 'info' })
+        return true
     }
 }
 
-handler.help = ['githubsearch <query>', 'githubinfo <owner/repo>', 'جيتهاب <query>', 'جيتهاب_معلومات <owner/repo>']
-handler.tags = ['search']
-handler.command = /^githubsearch$|^githubinfo$|^جيتهاب$|^جيتهاب_معلومات$/i
-handler.limit = false
-handler.name = 'جيتهاب 
-export default handler
+handler.help = ['جيتهاب <اسم>', 'info <رابط>'];
+handler.tags = ['downloader'];
+handler.command = /^(جيتهاب|info)$/i;
 
-function formatDate(n, locale = 'ar-MA') {
-    let d = new Date(n)
-    return d.toLocaleDateString(locale, {
-      day: 'numeric',
-      month: 'short',
-      year: 'numeric'
-    })
-}
+export default handler;
