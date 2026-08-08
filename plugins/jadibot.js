@@ -12,9 +12,13 @@ import { fileURLToPath } from 'url'
 
 // ===== تعريفات عامة =====
 const jadi = 'jadi'
-const channelName = 'Jadibot'
+const channelName = '𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏'
 const channelLink = ''
 const instaLink = 'https://instagram.com/adam.__.98'
+
+// الصور
+const صورة_القائمة = 'https://files.catbox.moe/1yjwvh.jpeg'
+const صورة_الكود = 'https://files.catbox.moe/ow0myw.jpeg'
 
 const newsletter = {
   forwardingScore: 999,
@@ -23,23 +27,23 @@ const newsletter = {
     newsletterJid: '120363410733859643@newsletter',
     newsletterName: channelName
   }
-} // <-- هنا كان ناقص هاد القوس
+}
 
 let crm1 = "Y2QgcGx1Z2lucy"
 let crm2 = "A7IG1kNXN1b"
 let crm3 = "SBpbmZvLWRvbmFyLmpz"
 let crm4 = "IF9hdXRvcmVzcG9uZGVyLmpzIGluZm8tYm90Lmpz"
 
-let rtx = `*⚡️ طـريـقـة الـربـط السـريـعــة* \n\n📲 1 قـم بفتـح واتـساب علـى جـهازك الآخــر\n✨ 2 انـتـقل إلـى الأجـهـزة المـرتـبطـة\n📸 3 امـسح رمـز الـ QR الـظاهـر هـنا\n⏳ 4 انـتظر قلـيلاً حـتى يـتـم الاتـصـال\n✔️ 5 يـتـم تـشغـيل البـوت الـفرعـي بنـجاج \n\n`.trim()
+let rtx = `*⚡️ طـريـقـة الـربـط السـريـعــة* \n\n📲 1 قـم بفتـح واتـساب علـى جـهازك الآخــر\n✨ 2 انـتـقل إلـى الأجـهـزة المـرتـبطـة\n📸 3 امـسح رمـز الـ QR الـظاهـر هـنا\n⏳ 4 انـتظر قلـيلاً حـتى يـتـم الاتـصـال\n✔️ 5 يـتـم تـشغـيل البـوت الـفرعـي بنـجاح \n\n`.trim()
 
-let rtx2 = `*🔗 ربـط بـوت فــرعـي جـديــد* \n\n🤖 الـــبـوت : CARL-BOT \n\n✨ 1 افتـح الأجـهزة المـرتبـطـة فـي واتـسـاب\n📎 2 اخـترا الــربـط بـكـود تحـقـق مـن البـوت الأسـاســـي \n🗝️ 3 ادخـل الـكـود الـذي سيـصلـك مـن بـوت \n✔️ 4 انتـظـر حـتـى يـتـم الـربـط بنـجـاح وتـأكـيــد\n\🎉 5 يتـم تـشـغـيل البـوت الفـرعـي بـنجـاح\n${channelLink}\n\n`.trim()
+let rtx2 = `*🔗 ربـط بـوت فــرعـي جـديــد* \n\n🤖 الـــبـوت : ${channelName} \n\n✨ 1 افتـح الأجـهزة المـرتبـطـة فـي واتـسـاب\n📎 2 اخـترا الــربـط بـكـود تحـقـق مـن البـوت الأسـاســـي \n🗝️ 3 ادخـل الـكـود الـذي سيـصلـك مـن بـوت \n✔️ 4 انتـظـر حـتـى يـتـم الـربـط بنـجـاح وتـأكـيــد\n\🎉 5 يتـم تـشـغـيل البـوت الفـرعـي بـنجـاح\n${channelLink}\n\n`.trim()
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const yukiJBOptions = {}
 
 if (!global.conns) global.conns = []
-if (!global.jadiMode) global.jadiMode = {} // نخزنو الاختيار هنا
+if (!global.jadiMode) global.jadiMode = {}
 
 let handler = async (m, { conn, args, usedPrefix, command }) => {
     const subBots = [...new Set([...global.conns.filter((conn) => conn.user && conn.ws.socket && conn.ws.socket.readyState!== ws.CLOSED).map((conn) => conn)])]
@@ -51,37 +55,30 @@ let handler = async (m, { conn, args, usedPrefix, command }) => {
 
     if (!fs.existsSync(pathYukiJadiBot)) fs.mkdirSync(pathYukiJadiBot, { recursive: true })
 
-    // اذا مافيش args نطلعو القائمة
+    // القائمة بالأزرار
     if(args.length === 0){
         let sections = [
-          {
-            title: "📎 اخــتـر طـريـقـة الـربـط 📎",
-            rows: [
-              { title: "📋 بـالـكـود", description: "اربـط الـبوت بـكـود تـحـقق", id: `${usedPrefix}jadibot code` },
-              { title: "📸 بـالـQR", description: "اربــط البـوت بـمسـح QR", id: `${usedPrefix}jadibot qr` },
-            ]
-          }
+            {
+                title: "📎 اخــتـر طـريـقـة الـربـط",
+                rows: [
+                    { title: "📋 بـالـكـود", description: "اربـط بـ 8 ارقـام", id: `${usedPrefix}jadibot code` },
+                    { title: "📸 بـالـQR", description: "اربـط بـمـسـح الـكـود", id: `${usedPrefix}jadibot qr` },
+                ]
+            }
         ]
         return await conn.sendButton(m.chat, {
-            text: `*🤖 اخـتـار طـريقـة ربـط الـبـوت الـفرعـي*\n\nالـكـود اسـهـل، والـ QR اسـرع`,
-            footer: { text: `CARL-BOT` },
+            image: { url: صورة_القائمة },
+            caption: `╮──〔 🤖 جـادي بـوت 〕──╭\n│اخـتـر طـريـقـة ربـط الـبـوت الـفـرعـي\n╯────────────────╰\n\nالـكـود اسـهـل والـ QR اسـرع`,
+            footer: { text: `${channelName}` },
             buttons: [
-                {
-                    name: 'single_select',
-                    buttonParamsJson: JSON.stringify({
-                        title: '⬇️ اضـغـط هــنـا للاخـتــيار',
-                        sections: sections
-                    }),
-                }
+                { name: 'single_select', buttonParamsJson: JSON.stringify({ title: '⬇️ اضـغـط هـنـا', sections: sections }) }
             ],
-            headerType: 1,
+            headerType: 4,
             contextInfo: newsletter
         }, { quoted: m })
     }
 
-    // نخزن الاختيار باش منضيعوش
     global.jadiMode[id] = args[0]
-
     yukiJBOptions.pathYukiJadiBot = pathYukiJadiBot
     yukiJBOptions.m = m
     yukiJBOptions.conn = conn
@@ -101,18 +98,23 @@ handler.command = ["jadibot"]
 export default handler
 
 handler.before = async (m, { conn, usedPrefix }) => {
-    if(m.text.startsWith(`${usedPrefix}jadibot `)){
-        let mode = m.text.split(' ')[1]
-        if(mode === 'code' || mode === 'qr'){
-            await handler(m, { conn, args: [mode], usedPrefix, command: 'jadibot' })
-            return true
+    if (m.isBaileys || m.fromMe) return
+    let selectedId = m?.message?.interactiveResponseMessage?.nativeFlowResponseMessage?.paramsJson
+    if(!selectedId) return
+    try {
+        let data = JSON.parse(selectedId)
+        let id = data.id
+        if (id.startsWith(`${usedPrefix}jadibot `)) {
+            let mode = id.split(' ')[1]
+            if(mode === 'code' || mode === 'qr'){
+                await handler(m, { conn, args: [mode], usedPrefix, command: 'jadibot' })
+            }
         }
-    }
+    } catch (e) { console.log(e) }
 }
 
 export async function yukiJadiBot(options) {
     let { pathYukiJadiBot, m, conn, args, usedPrefix, command, id } = options
-
     const pathCreds = path.join(pathYukiJadiBot, "creds.json")
     if (!fs.existsSync(pathYukiJadiBot)) fs.mkdirSync(pathYukiJadiBot, { recursive: true })
 
@@ -139,39 +141,34 @@ export async function yukiJadiBot(options) {
 
         async function connectionUpdate(update) {
             const { connection, lastDisconnect, qr } = update
-            const mode = global.jadiMode[id] // نجيبو الاختيار من global
+            const mode = global.jadiMode[id]
 
             if (qr) {
-                // 1. حالة الكود
+                // حالة الكود + زر النسخ
                 if (mode === 'code') {
                     let secret = await sock.requestPairingCode((m.sender.split`@`[0]))
                     global.jadicode = global.jadicode || {}
                     global.jadicode[m.sender] = secret
 
                     await conn.sendButton(m.chat, {
-                        text: `${rtx2}\n\n*الــكــــود:* \`\`${secret}\`\n\n قــوم نســخ كـــود`,
-                        footer: { text: `CARL-BOT` },
+                        image: { url: صورة_الكود },
+                        caption: `${rtx2}\n\n*الــكــــود:* \`\`${secret}\`\n\nاضـغـط عـلـى الـزر لـنـسـخ الـكـود`,
+                        footer: { text: `${channelName}` },
                         buttons: [
-                            {
-                                name: 'cta_url',
-                                buttonParamsJson: JSON.stringify({
-                                    display_text: '📢 قــنــاة الـواتــســاب',
-                                    url: channelLink
-                                }),
-                            },
+                            { name: 'cta_copy', buttonParamsJson: JSON.stringify({ display_text: '📋 انسـخ الـــكـود', copy_code: secret }) }
                         ],
+                        headerType: 4,
                         contextInfo: newsletter
                     }, { quoted: m })
                     console.log('CODE:', secret)
                 }
 
-                // 2. حالة QR
+                // حالة QR
                 if (mode === 'qr') {
                     let qrBuffer = await qrcode.toBuffer(qr)
                     await conn.sendMessage(m.chat, {
                         image: qrBuffer,
                         caption: rtx,
-                        footer: { text: `ITACHI BOT` },
                         contextInfo: newsletter
                     }, { quoted: m })
                 }
@@ -184,10 +181,18 @@ export async function yukiJadiBot(options) {
                 if ([405,401,403].includes(reason)) fs.rmdirSync(pathYukiJadiBot, { recursive: true })
                 if (reason === 500) return creloadHandler(true).catch(console.error)
             }
+
             if (connection == `open`) {
                 delete global.jadiMode[id]
-                let userName = sock.authState.creds.me.name || 'Anónimo'
+                let userName = sock.authState.creds.me.name || 'مستخدم'
+                let userId = sock.user.jid
                 console.log(chalk.bold.cyanBright(`\n✅ ${userName} (+${path.basename(pathYukiJadiBot)}) متـصل بنـجاح.`))
+
+                await conn.sendMessage(m.chat, {
+                    text: `✅ *تــسـجـيـل الـدخـول بـنـجـاح*\n\n🤖 *الـبـوت الـفـرعـي:* ${userName}\n📱 *الـرقـم:* wa.me/${userId.split('@')[0]}\n\n`,
+                    contextInfo: newsletter
+                }, { quoted: m })
+
                 sock.isInit = true
                 global.conns.push(sock)
                 await joinChannels(sock)
