@@ -1,60 +1,145 @@
-let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner }) => {
-	if (!isOwner) return m.reply('❌ *هذا الأمر للمطور فقط*')
+import moment from 'moment-timezone'
 
-	const isEnable = /^(true|enable|(turn)?on|1|تفعيل)$/i.test(command);
+const channelName = '𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭 ⚽⚡'
+const CHANNEL_ID = '120363410733859643@newsletter'
+const newsletter = {
+    forwardingScore: 999,
+    isForwarded: true,
+    forwardedNewsletterMessageInfo: {
+        newsletterJid: CHANNEL_ID,
+        newsletterName: channelName
+    }
+}
+
+const BANNER = 'https://files.catbox.moe/mfh2sj.jpeg'
+
+let handler = async (m, { conn, usedPrefix: _p, command, args, isOwner }) => {
+	if (!isOwner) return m.reply('❌ *هـذا الأمـر لـلـمـطـور فـقـط*')
+
 	const chat = global.db.data.chats[m.chat] || {};
 	const user = global.db.data.users[m.sender] || {};
 	const settings = global.db.data.settings[conn.user.jid] || {};
 	let type = (args[0] || '').toLowerCase();
 
-	if(command.toLowerCase() == 'الاعدادات'){
+	const setState = (obj, key, value) => { obj[key] = value }
+
+	const names = {
+	'ترحيب': 'الـتـرحـيـب',
+	'كشف': 'كـاشـف الـمـحـذوف',
+	'حماية_حذف': 'إعـادة الـمـحـذوف',
+	'حظر_روابط': 'حـذف الـروابـط',
+	'قراءة_ذكية': 'الـقـراءة الـخـفـيـة',
+	'وضع_عام': 'الـوضـع الـعـام',
+	'مانع_مكالمات': 'حـظـر الـمـتـصـلـيـن',
+	'مجموعات_فقط': 'خـدمـة الـمـجـمـوعـات',
+	'رفع_مستوى': 'نـظـام الـنـقـاط'
+	}
+
+	if(command.toLowerCase() == 'تعطيل' || command.toLowerCase() == 'panel'){
 		let sections = [
-			{ title: "👥 قـسـم الـمـجـمـوعـة", rows: [
-				{title: "👋 الـترحـيب", description: `الحالة: ${chat.welcome ? '✅' : '❌'}`, id: `${_p}تفعيل welcome`},
-				{title: "📢 الكـشـف", description: `الحالة: ${chat.detect ? '✅' : '❌'}`, id: `${_p}تفعيل detect`},
-				{title: "🚫 مـنـع الـحـذف", description: `الحالة: ${chat.delete ? '✅' : '❌'}`, id: `${_p}تفعيل antidelete`},
-				{title: "🔗 مـنـع الـروابـط", description: `الحالة: ${chat.antilink ? '✅' : '❌'}`, id: `${_p}تفعيل antilink`}
-			]},
-			{ title: "👑 قـسـم الـمـطـور", rows: [
-				{title: "👁️ الـقراءة التلـقائيـة", description: `الحالة: ${settings.autoread ? '✅' : '❌'}`, id: `${_p}تفعيل autoread`},
-				{title: "🌐 عـام", description: `الحالة: ${settings.public ? '✅' : '❌'}`, id: `${_p}تفعيل public`},
-				{title: "📞 مـنـع المـكـالمات", description: `الحالة: ${settings.anticall ? '✅' : '❌'}`, id: `${_p}تفعيل anticall`},
-				{title: "🏘️ للـمجمـوعـات فـقـط", description: `الحالة: ${settings.gconly ? '✅' : '❌'}`, id: `${_p}تفعيل gconly`},
-				{title: "📈 المـستـوى الـتلقـائي", description: `الحالة: ${user.autolevelup ? '✅' : '❌'}`, id: `${_p}تفعيل autolevelup`}
-			]}
+			{
+				title: "✅ تـشـغـيـل الـمـيـزات",
+				rows: [
+					{title: "👋 تـشـغـيـل الـتـرحـيـب", description: `يـرحـب بـالأعـضـاء الـجـدد | ${chat.welcome? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل ترحيب`},
+					{title: "📢 تـشـغـيـل كـاشـف الـمـحـذوف", description: `يـخـبـرك مـن مـسـح | ${chat.detect? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل كشف`},
+					{title: "🚫 تـشـغـيـل إعـادة الـمـحـذوف", description: `يـعـيـد الـرسـائـل الـمـمـسـوحـة | ${chat.antiDelete? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل حماية_حذف`},
+					{title: "🔗 تـشـغـيـل حـذف الـروابـط", description: `يـحـذف الـروابـط تـلـقـائـيـا | ${chat.antiLink? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل حظر_روابط`},
+					{title: "👁️ تـشـغـيـل الـقـراءة الـخـفـيـة", description: `تـقـرا بـلا عـلامـة زرقـاء | ${settings.autoRead? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل قراءة_ذكية`},
+					{title: "🌐 تـشـغـيـل الـوضـع الـعـام", description: `أي شـخـص يـسـتـعـمـل الـبـوت | ${settings.isPublic? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل وضع_عام`},
+					{title: "📞 تـشـغـيـل حـظـر الـمـتـصـلـيـن", description: `يـحـظـر مـن يـتـصـل | ${settings.antiCall? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل مانع_مكالمات`},
+					{title: "🏘️ تـشـغـيـل الـمـجـمـوعـات فـقـط", description: `يـخـدم فـي الـقـروبـات فـقـط | ${settings.groupsOnly? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل مجموعات_فقط`},
+					{title: "📈 تـشـغـيـل نـظـام الـنـقـاط", description: `نـقـاط ومـسـتـوى | ${user.autoLevelUp? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}شغل رفع_مستوى`}
+				]
+			},
+			{
+				title: "❌ إيـقـاف الـمـيـزات",
+				rows: [
+					{title: "👋 إيـقـاف الـتـرحـيـب", description: `يـوقـف رسـائـل الـتـرحـيـب | ${chat.welcome? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي ترحيب`},
+					{title: "📢 إيـقـاف كـاشـف الـمـحـذوف", description: `مـا يـخـبـركـش | ${chat.detect? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي كشف`},
+					{title: "🚫 إيـقـاف إعـادة الـمـحـذوف", description: `مـا يـعـيـدش | ${chat.antiDelete? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي حماية_حذف`},
+					{title: "🔗 إيـقـاف حـذف الـروابـط", description: `يـسـمـح بـالـروابـط | ${chat.antiLink? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي حظر_روابط`},
+					{title: "👁️ إيـقـاف الـقـراءة الـخـفـيـة", description: `تـرجـع الـزرقـاء | ${settings.autoRead? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي قراءة_ذكية`},
+					{title: "🌐 إيـقـاف الـوضـع الـعـام", description: `لـلـمـطـور فـقـط | ${settings.isPublic? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي وضع_عام`},
+					{title: "📞 إيـقـاف حـظـر الـمـتـصـلـيـن", description: `يـسـمـح بـالـمـكـالـمـات | ${settings.antiCall? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي مانع_مكالمات`},
+					{title: "🏘️ إيـقـاف الـمـجـمـوعـات فـقـط", description: `يـخـدم فـي الـخـاص | ${settings.groupsOnly? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي مجموعات_فقط`},
+					{title: "📈 إيـقـاف نـظـام الـنـقـاط", description: `يـوقـف الـمـسـتـوى | ${user.autoLevelUp? 'شـغـال ✅' : 'مـتـوقـف ❌'}`, id: `${_p}طفي رفع_مستوى`}
+				]
+			}
 	]
 
-		return await conn.sendButton(m.chat,{
-			image: { url: '' },
-			caption: `⚙️ *اعـدادات الـبـوت*\n\n`,
-			footer: { text: "© 𝙄𝙎𝘼𝙂𝙄 𝙔𝙊𝙄𝘾𝙃𝙄 𝘽𝙊𝙏 - 𝟭𝟭 ⚽⚡" },
-			buttons: [
-				{name:'single_select', buttonParamsJson:JSON.stringify({title:'✅ تـفـعـيـل', sections})},
-				{name:'single_select', buttonParamsJson:JSON.stringify({title:'❌ تـعـطـيـل', sections: sections.map(s => ({...s, rows: s.rows.map(r => ({...r, id: r.id.replace('تفعيل', 'تعطيل')}))}))})}
-			]
-	},{quoted:m})
+		return await conn.sendButton(m.chat, {
+            image: { url: BANNER },
+            caption: `╮──〔 ⚙️ لــوحــة الــتــحــكــم 〕──╭\n│اخـتـر الـمـيـزة لـتـشـغـيـلـهـا أو إيـقـافـهـا\n╯────────────────╰\n\n𝗕𝘆 𝗮𝗱𝗮𝗺.___.𝟵𝟴`,
+            footer: { text: `` },
+            buttons: [
+                { name: 'single_select', buttonParamsJson: JSON.stringify({ title: '⚡ اخـتـر الـعـمـلـيـة', sections: sections }) },
+                { name: 'quick_reply', buttonParamsJson: JSON.stringify({ display_text: '🏠 الـرجـوع', id: _p + 'الأوامر' }) }
+            ],
+            headerType: 4,
+            contextInfo: newsletter
+        }, { quoted: m, mentions: [m.sender] })
 	}
 
-	let isAll = false, isUser = false;
-	switch (type) {
-		case 'welcome': chat.welcome = isEnable; break;
-		case 'detect': chat.detect = isEnable; break;
-		case 'antidelete': case 'delete': chat.delete = isEnable; break;
-		case 'antilink': chat.antilink = isEnable; break;
-		case 'autolevelup': isUser = true; user.autolevelup = isEnable; break;
-		case 'autoread': isAll = true; settings.autoread = isEnable; break;
-		case 'public': isAll = true; settings.public = isEnable; break;
-		case 'gconly': case 'grouponly': isAll = true; settings.gconly = isEnable; break;
-		case 'anticall': isAll = true; settings.anticall = isEnable; break;
-		default:
-			return m.reply(`*امثلة:*\n- ${_p}تفعيل welcome\n- ${_p}تعطيل antilink\n- ${_p}الاعدادات`);
+	if(command.toLowerCase() == 'شغل'){
+		let target = 'فـي هـذه الـمـجـمـوعـة'
+		let name = names[type] || type
+		if(type == 'رفع_مستوى') target = 'لـك'
+		if(['قراءة_ذكية','وضع_عام','مانع_مكالمات','مجموعات_فقط'].includes(type)) target = 'لـلـبـوت'
+		
+		switch (type) {
+			case 'ترحيب': setState(chat, 'welcome', true); break;
+			case 'كشف': setState(chat, 'detect', true); break;
+			case 'حماية_حذف': setState(chat, 'antiDelete', true); break;
+			case 'حظر_روابط': setState(chat, 'antiLink', true); break;
+			case 'رفع_مستوى': setState(user, 'autoLevelUp', true); break;
+			case 'قراءة_ذكية': setState(settings, 'autoRead', true); break;
+			case 'وضع_عام': setState(settings, 'isPublic', true); break;
+			case 'مجموعات_فقط': setState(settings, 'groupsOnly', true); break;
+			case 'مانع_مكالمات': setState(settings, 'antiCall', true); break;
+			default: return m.reply(`*مـثـال:* ${_p}شـغـل تـرحـيـب`);
+	}
+		return m.reply(`✅ *تـم تـشـغـيـل* ${name} ${target}`)
 	}
 
-	m.reply(`✅ *تـــم ${isEnable? 'تفعيل' : 'تعطيل'}* ${type} ${isAll? 'للبـوت' : isUser? 'لك' : 'لهـذه المـجـموعـة'}`);
+	if(command.toLowerCase() == 'طفي'){
+		let target = 'فـي هـذه الـمـجـمـوعـة'
+		let name = names[type] || type
+		if(type == 'رفع_مستوى') target = 'لـك'
+		if(['قراءة_ذكية','وضع_عام','مانع_مكالمات','مجموعات_فقط'].includes(type)) target = 'لـلـبـوت'
+
+		switch (type) {
+			case 'ترحيب': setState(chat, 'welcome', false); break;
+			case 'كشف': setState(chat, 'detect', false); break;
+			case 'حماية_حذف': setState(chat, 'antiDelete', false); break;
+			case 'حظر_روابط': setState(chat, 'antiLink', false); break;
+			case 'رفع_مستوى': setState(user, 'autoLevelUp', false); break;
+			case 'قراءة_ذكية': setState(settings, 'autoRead', false); break;
+			case 'وضع_عام': setState(settings, 'isPublic', false); break;
+			case 'مجموعات_فقط': setState(settings, 'groupsOnly', false); break;
+			case 'مانع_مكالمات': setState(settings, 'antiCall', false); break;
+			default: return m.reply(`*مـثـال:* ${_p}طـفـي تـرحـيـب`);
+	}
+		return m.reply(`❌ *تـم إيـقـاف* ${name} ${target}`)
+	}
 };
 
-handler.help = ['الاعدادات', 'تفعيل <ميزة>', 'تعطيل <ميزة>'];
+handler.before = async (m, { conn, usedPrefix: _p }) => {
+	if (m.isBaileys || m.fromMe) return
+	let selectedId = m?.message?.interactiveResponseMessage?.nativeFlowResponseMessage?.paramsJson
+	if(!selectedId) return
+	try {
+		let data = JSON.parse(selectedId)
+		let id = data.id
+		if (id.startsWith(_p + 'شغل') || id.startsWith(_p + 'طفي')) {
+			let [cmd,...rest] = id.slice(_p.length).split(' ')
+			await handler(m, { conn, usedPrefix: _p, command: cmd, args: rest, isOwner: true })
+	}
+		if (id === `${_p}الأوامر`) await conn.execCommand(m, id)
+	} catch (e) { console.log(e) }
+}
+
+handler.help = ['الاعدادات', 'panel', 'شغل <مـيـزة>', 'طفي <مـيـزة>'];
 handler.tags = ['owner'];
-handler.command = /^((en|dis)able|(true|false)|(turn)?(on|off)|[01]|تفعيل|تعطيل|الاعدادات)$/i;
+handler.command = /^(تعطيل|panel|شغل|طفي)$/i;
 handler.owner = true;
 export default handler;
